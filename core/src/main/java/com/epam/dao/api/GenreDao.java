@@ -13,5 +13,6 @@ public interface GenreDao {
     void update(Genre genre);
     void delete(int id);
     Genre findById(int id);
+    Genre findByName(String name);
     List<Genre> findAll();
 }

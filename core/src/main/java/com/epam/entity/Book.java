@@ -9,7 +9,8 @@ public class Book {
 
     private int id;
     private String name;
-    private Date year;
+    private int count;
+    private int year;
     private int authorId;
     private int genreId;
 
@@ -29,11 +30,19 @@ public class Book {
         this.name = name;
     }
 
-    public Date getYear() {
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public int getYear() {
         return year;
     }
 
-    public void setYear(Date year) {
+    public void setYear(int year) {
         this.year = year;
     }
 

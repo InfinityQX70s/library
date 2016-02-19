@@ -13,5 +13,6 @@ public interface UserDao {
     void update(User user);
     void delete(int id);
     User findById(int id);
+    User findByFirstNameAndLastName(String firstName, String lastName);
     User findByEmail(String email);
 }
