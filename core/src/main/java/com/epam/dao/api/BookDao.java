@@ -13,7 +13,7 @@ public interface BookDao {
     void update(Book book);
     void delete(int id);
     Book findById(int id);
-    Book findByName(String name);
+    List<Book> findByName(String name);
     List<Book> findByGenre(int genreId);
     List<Book> findByAuthor(int authorId);
     List<Book> findAll();
