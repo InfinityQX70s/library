@@ -29,6 +29,13 @@ public class BookOrderServiceImpl extends TransactionManager implements BookOrde
     private static final String STATUS_OPEN = "open";
     private static final String STATUS_CLOSE = "close";
 
+    public BookOrderServiceImpl(BookDao bookDao, BookOrderDao bookOrderDao, UserDao userDao, StatusDao statusDao) {
+        this.bookDao = bookDao;
+        this.bookOrderDao = bookOrderDao;
+        this.userDao = userDao;
+        this.statusDao = statusDao;
+    }
+
     public void createBookOrder(int bookId, String email) throws ServiceException {
         try {
             Book book = bookDao.findById(bookId);

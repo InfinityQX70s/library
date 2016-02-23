@@ -26,6 +26,13 @@ public class BookServiceImpl extends TransactionManager implements BookService{
     private AuthorDao authorDao;
     private BookOrderDao bookOrderDao;
 
+    public BookServiceImpl(BookDao bookDao, GenreDao genreDao, AuthorDao authorDao, BookOrderDao bookOrderDao) {
+        this.bookDao = bookDao;
+        this.genreDao = genreDao;
+        this.authorDao = authorDao;
+        this.bookOrderDao = bookOrderDao;
+    }
+
     public void addBook(Book book, String alias, String genreName) throws ServiceException {
         try {
             Genre genre = genreDao.findByName(genreName);
