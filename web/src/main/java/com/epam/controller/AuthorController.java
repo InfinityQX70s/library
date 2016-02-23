@@ -1,6 +1,7 @@
 package com.epam.controller;
 
 import com.epam.AppContext;
+import com.epam.Validator;
 import com.epam.controller.exception.ControllerException;
 import com.epam.controller.exception.ControllerStatusCode;
 import com.epam.entity.Author;
@@ -21,6 +22,7 @@ public class AuthorController implements BaseController {
 
     private AppContext appContext = AppContext.getInstance();
     private AuthorService authorService = appContext.getAuthorService();
+    private Validator validator = appContext.getValidator();
 
     public void execute(ServletContext servletContext, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
@@ -51,7 +53,7 @@ public class AuthorController implements BaseController {
         }
     }
 
-    // /authors
+    // /authors GET
     private void showAuthor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             List<Author> authors = authorService.findAllAuthors();
@@ -63,62 +65,67 @@ public class AuthorController implements BaseController {
         }
     }
 
+    // /authors/add GET
     private void showFormForAuthorAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/pages/author/authorAdd.jsp").forward(request, response);
     }
 
+    // /authors/add POST
     private void addAuthor(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
             String number = request.getParameter("number");
             String alias = request.getParameter("alias");
-            //validator.validateTruckNumber(number);
+            validator.validateGenreAndAuthor(number,alias);
             Author author = new Author();
             author.setId(Integer.parseInt(number));
             author.setAlias(alias);
             authorService.addAuthor(author);
             response.sendRedirect("/authors");
-        } catch (ServiceException e) {
+        } catch (ServiceException | ControllerException e) {
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
     }
 
+    // /authors/change POST
     private void changeAuthor(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
             String number = request.getParameter("number");
             String alias = request.getParameter("alias");
+            validator.validateGenreAndAuthor(number,alias);
             Author author = new Author();
             author.setId(Integer.parseInt(number));
             author.setAlias(alias);
             authorService.updateAuthor(author);
             response.sendRedirect("/authors");
-        } catch (ServiceException e) {
+        } catch (ServiceException | ControllerException e) {
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
 
     }
 
+    // /authors/delete POST
     private void deleteAuthor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String number = request.getParameter("number");
-            //validator.validateTruckNumber(number);
+            validator.validateGenreAndAuthorNumber(number);
             authorService.deleteAuthor(Integer.parseInt(number));
             response.sendRedirect("/authors");
-        } catch (ServiceException e) {
+        } catch (ServiceException | ControllerException e) {
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
     }
 
-
+    // /authors/{}/edit GET
     private void showFormForChangeAuthor(HttpServletRequest request, HttpServletResponse response, String number) throws ServletException, IOException {
         try {
-            //validator.validateTruckNumber(number);
+            validator.validateGenreAndAuthorNumber(number);
             Author author = authorService.findAuthorById(Integer.parseInt(number));
             request.setAttribute("author", author);
             request.getRequestDispatcher("/WEB-INF/pages/author/authorEdit.jsp").forward(request, response);
-        } catch (ServiceException e) {
+        } catch (ServiceException | ControllerException e) {
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }

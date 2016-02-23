@@ -21,7 +21,7 @@
     <thead>
     <tr>
         <th data-field="id">Number</th>
-        <th data-field="name">Name</th>
+        <th data-field="alias">Alias</th>
         <th data-field="change"></th>
         <th data-field="delete"></th>
     </tr>
@@ -53,7 +53,7 @@
 
 </table>
 <div class="row col s6 offset-s4 right-align">
-    <a href="/authors/add" class="right btn-floating btn-large waves-effect waves-light red ">
+    <a href="/authors/add" class="right btn-floating btn-large waves-effect waves-light blue lighten-2 ">
         <i class="material-icons">add</i></a>
 </div>
 <jsp:include page="../footer.jsp"/>

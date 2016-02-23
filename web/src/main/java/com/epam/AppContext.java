@@ -35,6 +35,8 @@ public class AppContext {
 
     private ControllerFactory controllerFactory;
 
+    private Validator validator;
+
     private AppContext() {
     }
 
@@ -170,5 +172,12 @@ public class AppContext {
             controllerFactory = new ControllerFactory();
         }
         return controllerFactory;
+    }
+
+    public synchronized Validator getValidator() {
+        if (validator == null){
+            validator = new Validator();
+        }
+        return validator;
     }
 }
