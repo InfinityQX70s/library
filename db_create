@@ -10,12 +10,12 @@ USE `library` ;
 -- Table `library`.`User`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `library`.`User` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(255) NOT NULL,
   `password` VARCHAR(32) NOT NULL,
   `firstName` VARCHAR(45) NOT NULL,
   `lastName` VARCHAR(45) NOT NULL,
-  `isLibrarian` TINYINT(1) NOT NULL,
+  `isLibrarian` BIT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 ENGINE = InnoDB;
@@ -25,7 +25,7 @@ ENGINE = InnoDB;
 -- Table `library`.`Genre`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `library`.`Genre` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -35,9 +35,8 @@ ENGINE = InnoDB;
 -- Table `library`.`Author`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `library`.`Author` (
-  `id` INT NOT NULL,
-  `firstName` VARCHAR(45) NOT NULL,
-  `lastName` VARCHAR(45) NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `alias` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -46,9 +45,10 @@ ENGINE = InnoDB;
 -- Table `library`.`Book`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `library`.`Book` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `year` YEAR NOT NULL,
+  `count` INT NOT NULL,
+  `year` INT NOT NULL,
   `authorId` INT NOT NULL,
   `genreId` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -71,7 +71,7 @@ ENGINE = InnoDB;
 -- Table `library`.`Status`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `library`.`Status` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -81,11 +81,11 @@ ENGINE = InnoDB;
 -- Table `library`.`BookOrder`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `library`.`BookOrder` (
-  `id` INT NOT NULL,
+  `idBookOrder` INT NOT NULL AUTO_INCREMENT,
   `userId` INT NOT NULL,
   `bookId` INT NOT NULL,
   `statusId` INT NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`idBookOrder`),
   INDEX `fk_BookOrder_User1_idx` (`userId` ASC),
   INDEX `fk_BookOrder_Book1_idx` (`bookId` ASC),
   INDEX `fk_BookOrder_Status1_idx` (`statusId` ASC),

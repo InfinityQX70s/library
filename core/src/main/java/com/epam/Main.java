@@ -17,6 +17,6 @@ public class Main {
         user.setPassword("sdsfsdfs");
         user.setLibrarian(false);
         UserDao userDao = new UserDaoImpl();
-        userDao.create(user);
+       // userDao.create(user);
     }
 }

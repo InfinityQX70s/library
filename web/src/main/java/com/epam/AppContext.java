@@ -1,5 +1,6 @@
 package com.epam;
 
+import com.epam.controller.*;
 import com.epam.dao.api.*;
 import com.epam.dao.impl.*;
 import com.epam.service.api.*;
@@ -24,6 +25,15 @@ public class AppContext {
     private BookService bookService;
     private GenreService genreService;
     private UserService userService;
+
+    private AuthorController authorController;
+    private BookController bookController;
+    private BookOrderController bookOrderController;
+    private ErrorController errorController;
+    private GenreController genreController;
+    private LoginController loginController;
+
+    private ControllerFactory controllerFactory;
 
     private AppContext() {
     }
@@ -111,5 +121,54 @@ public class AppContext {
             userService = new UserServiceImpl(getUserDao());
         }
         return userService;
+    }
+
+    public synchronized AuthorController getAuthorController() {
+        if (authorController == null){
+            authorController = new AuthorController();
+        }
+        return authorController;
+    }
+
+    public synchronized BookController getBookController() {
+        if (bookController == null){
+            bookController = new BookController();
+        }
+        return bookController;
+    }
+
+    public synchronized BookOrderController getBookOrderController() {
+        if (bookOrderController == null){
+            bookOrderController = new BookOrderController();
+        }
+        return bookOrderController;
+    }
+
+    public synchronized ErrorController getErrorController() {
+        if (errorController == null){
+            errorController = new ErrorController();
+        }
+        return errorController;
+    }
+
+    public synchronized GenreController getGenreController() {
+        if (genreController == null){
+            genreController = new GenreController();
+        }
+        return genreController;
+    }
+
+    public synchronized LoginController getLoginController() {
+        if (loginController == null){
+            loginController = new LoginController();
+        }
+        return loginController;
+    }
+
+    public synchronized ControllerFactory getControllerFactory() {
+        if (controllerFactory == null){
+            controllerFactory = new ControllerFactory();
+        }
+        return controllerFactory;
     }
 }
