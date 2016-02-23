@@ -1,6 +1,7 @@
 package com.epam.dao.impl;
 
 import com.epam.dao.api.BookDao;
+import com.epam.dao.api.exception.DaoException;
 import com.epam.entity.Book;
 
 import java.sql.SQLException;
@@ -12,49 +13,49 @@ import java.util.List;
  */
 public class BookDaoImpl extends ConnectionManager implements BookDao {
 
-    private static final String CREATE = "INSERT INTO Book (name, count, year,  authorId, genreId) VALUES(?,?,?,?,?)";
+    private static final String CREATE = "INSERT INTO Book (id, name, count, year,  authorId, genreId) VALUES(?,?,?,?,?,?)";
     private static final String UPDATE = "UPDATE Book SET name=?, count=?, year=?, authorId=?, genreId=? WHERE id = ?";
     private static final String DELETE = "DELETE FROM Book WHERE id = ?";
     private static final String FIND_BY_ID = "SELECT * FROM Book WHERE id = ?";
-    private static final String FIND_BY_NAME = "SELECT * FROM Book WHERE name = ?";
+    private static final String FIND_BY_NAME = "SELECT * FROM Book WHERE name LIKE ?";
     private static final String FIND_BY_AUTHOR = "SELECT * FROM Book WHERE authorId = ?";
     private static final String FIND_BY_GENRE = "SELECT * FROM Book WHERE genreId = ?";
     private static final String FIND_ALL = "SELECT * FROM Book";
 
-    public void create(Book book) {
+    public void create(Book book) throws DaoException {
         try {
             connect();
             Object[] params = {book.getName(),book.getCount(),book.getYear(),book.getAuthorId(),book.getGenreId()};
             execute(CREATE,params);
             close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Unknown sql exception",e);
         }
     }
 
-    public void update(Book book) {
+    public void update(Book book) throws DaoException {
         try {
             connect();
             Object[] params = {book.getName(),book.getCount(),book.getYear(),book.getAuthorId(),book.getGenreId(),book.getId()};
             execute(UPDATE,params);
             close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Unknown sql exception",e);
         }
     }
 
-    public void delete(int id) {
+    public void delete(int id) throws DaoException {
         try {
             connect();
             Object[] params = {id};
             execute(DELETE,params);
             close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Unknown sql exception",e);
         }
     }
 
-    public Book findById(int id) {
+    public Book findById(int id) throws DaoException {
         Book book = null;
         try {
             connect();
@@ -72,12 +73,12 @@ public class BookDaoImpl extends ConnectionManager implements BookDao {
             }
             close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Unknown sql exception",e);
         }
         return book;
     }
 
-    public List<Book> findByName(String name) {
+    public List<Book> findByName(String name) throws DaoException {
         List<Book> books = new ArrayList<Book>();
         try {
             connect();
@@ -96,12 +97,12 @@ public class BookDaoImpl extends ConnectionManager implements BookDao {
             }
             close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Unknown sql exception",e);
         }
         return books;
     }
 
-    public List<Book> findByGenre(int genreId) {
+    public List<Book> findByGenre(int genreId) throws DaoException {
         List<Book> books = new ArrayList<Book>();
         try {
             connect();
@@ -120,12 +121,12 @@ public class BookDaoImpl extends ConnectionManager implements BookDao {
             }
             close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Unknown sql exception",e);
         }
         return books;
     }
 
-    public List<Book> findByAuthor(int authorId) {
+    public List<Book> findByAuthor(int authorId) throws DaoException {
         List<Book> books = new ArrayList<Book>();
         try {
             connect();
@@ -144,12 +145,12 @@ public class BookDaoImpl extends ConnectionManager implements BookDao {
             }
             close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Unknown sql exception",e);
         }
         return books;
     }
 
-    public List<Book> findAll() {
+    public List<Book> findAll() throws DaoException {
         List<Book> books = new ArrayList<Book>();
         try {
             connect();
@@ -168,7 +169,7 @@ public class BookDaoImpl extends ConnectionManager implements BookDao {
             }
             close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Unknown sql exception",e);
         }
         return books;
     }

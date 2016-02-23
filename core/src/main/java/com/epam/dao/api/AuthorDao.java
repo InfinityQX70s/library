@@ -13,7 +13,7 @@ public interface AuthorDao {
     void create(Author author) throws DaoException;
     void update(Author author) throws DaoException;
     void delete(int id) throws DaoException;
-    Author findByFirstNameAndLastName(String firstName, String lastName) throws DaoException;
+    Author findByAlias(String alisa) throws DaoException;
     Author findById(int id) throws DaoException;
     List<Author> findAll() throws DaoException;
 }

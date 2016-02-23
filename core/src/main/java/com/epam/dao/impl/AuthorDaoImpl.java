@@ -13,17 +13,17 @@ import java.util.List;
  */
 public class AuthorDaoImpl extends ConnectionManager implements AuthorDao {
 
-    private static final String CREATE = "INSERT INTO Author (id, firstName, lastName) VALUES(?,?,?)";
-    private static final String UPDATE = "UPDATE Author SET firstName = ?, lastName = ? WHERE id = ?";
+    private static final String CREATE = "INSERT INTO Author (id, alias) VALUES(?,?)";
+    private static final String UPDATE = "UPDATE Author SET alias = ? WHERE id = ?";
     private static final String DELETE = "DELETE FROM Author WHERE id = ?";
     private static final String FIND_BY_ID = "SELECT * FROM Author WHERE id = ?";
-    private static final String FIND_BY_FIRST_NAME_AND_LAST_NAME = "SELECT * FROM Author WHERE firstName = ? AND lastName = ?";
+    private static final String FIND_BY_ALIAS = "SELECT * FROM Author WHERE alias = ?";
     private static final String FIND_ALL = "SELECT * FROM Author";
 
     public void create(Author author) throws DaoException {
         try {
             connect();
-            Object[] params = {author.getId(),author.getFirstName(),author.getLastName()};
+            Object[] params = {author.getId(),author.getAlias()};
             execute(CREATE,params);
             close();
         } catch (SQLException e) {
@@ -34,7 +34,7 @@ public class AuthorDaoImpl extends ConnectionManager implements AuthorDao {
     public void update(Author author) throws DaoException {
         try {
             connect();
-            Object[] params = {author.getFirstName(),author.getLastName(),author.getId()};
+            Object[] params = {author.getAlias(),author.getId()};
             execute(UPDATE,params);
             close();
         } catch (SQLException e) {
@@ -53,18 +53,17 @@ public class AuthorDaoImpl extends ConnectionManager implements AuthorDao {
         }
     }
 
-    public Author findByFirstNameAndLastName(String firstName, String lastName) throws DaoException {
+    public Author findByAlias(String alias) throws DaoException {
         Author author = null;
         try {
             connect();
-            Object[] params = {firstName,lastName};
-            resultSet = executeQuery(FIND_BY_FIRST_NAME_AND_LAST_NAME,params);
+            Object[] params = {alias};
+            resultSet = executeQuery(FIND_BY_ALIAS,params);
             while (resultSet.next()){
                 int i = 1;
                 author = new Author();
                 author.setId(resultSet.getInt(i++));
-                author.setFirstName(resultSet.getString(i++));
-                author.setLastName(resultSet.getString(i));
+                author.setAlias(resultSet.getString(i));
             }
             close();
         } catch (SQLException e) {
@@ -83,8 +82,7 @@ public class AuthorDaoImpl extends ConnectionManager implements AuthorDao {
                 int i = 1;
                 author = new Author();
                 author.setId(resultSet.getInt(i++));
-                author.setFirstName(resultSet.getString(i++));
-                author.setLastName(resultSet.getString(i));
+                author.setAlias(resultSet.getString(i));
             }
             close();
         } catch (SQLException e) {
@@ -103,8 +101,7 @@ public class AuthorDaoImpl extends ConnectionManager implements AuthorDao {
                 int i = 1;
                 Author author = new Author();
                 author.setId(resultSet.getInt(i++));
-                author.setFirstName(resultSet.getString(i++));
-                author.setLastName(resultSet.getString(i));
+                author.setAlias(resultSet.getString(i));
                 authors.add(author);
             }
             close();

@@ -5,6 +5,7 @@ import com.epam.dao.api.GenreDao;
 import com.epam.dao.api.exception.DaoException;
 import com.epam.entity.Book;
 import com.epam.entity.Genre;
+import com.epam.service.api.GenreService;
 import com.epam.service.api.exception.ServiceException;
 import com.epam.service.api.exception.ServiceStatusCode;
 
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Created by infinity on 23.02.16.
  */
-public class GenreServiceImpl extends TransactionManager{
+public class GenreServiceImpl extends TransactionManager implements GenreService{
 
     private GenreDao genreDao;
     private BookDao bookDao;

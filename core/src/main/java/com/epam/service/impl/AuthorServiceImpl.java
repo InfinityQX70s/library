@@ -5,6 +5,7 @@ import com.epam.dao.api.BookDao;
 import com.epam.dao.api.exception.DaoException;
 import com.epam.entity.Author;
 import com.epam.entity.Book;
+import com.epam.service.api.AuthorService;
 import com.epam.service.api.exception.ServiceException;
 import com.epam.service.api.exception.ServiceStatusCode;
 
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Created by infinity on 23.02.16.
  */
-public class AuthorServiceImpl extends TransactionManager {
+public class AuthorServiceImpl extends TransactionManager implements AuthorService{
 
     private AuthorDao authorDao;
     private BookDao bookDao;

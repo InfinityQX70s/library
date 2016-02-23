@@ -1,5 +1,6 @@
 package com.epam.dao.api;
 
+import com.epam.dao.api.exception.DaoException;
 import com.epam.entity.BookOrder;
 
 import java.util.List;
@@ -9,13 +10,13 @@ import java.util.List;
  */
 public interface BookOrderDao {
 
-    void create(BookOrder bookOrder);
-    void update(BookOrder bookOrder);
-    void delete(int id);
-    BookOrder findById(int id);
-    List<BookOrder> findByUser(int userId);
-    List<BookOrder> findByBook(int bookId);
-    List<BookOrder> findByStatus(int statusId);
-    List<BookOrder> findAll();
+    void create(BookOrder bookOrder) throws DaoException;
+    void update(BookOrder bookOrder) throws DaoException;
+    void delete(int id) throws DaoException;
+    BookOrder findById(int id) throws DaoException;
+    List<BookOrder> findByUser(int userId) throws DaoException;
+    List<BookOrder> findByBook(int bookId) throws DaoException;
+    List<BookOrder> findByStatus(int statusId) throws DaoException;
+    List<BookOrder> findAll() throws DaoException;
 
 }

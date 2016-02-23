@@ -1,5 +1,6 @@
 package com.epam.dao.api;
 
+import com.epam.dao.api.exception.DaoException;
 import com.epam.entity.User;
 
 /**
@@ -7,10 +8,10 @@ import com.epam.entity.User;
  */
 public interface UserDao {
 
-    void create(User user);
-    void update(User user);
-    void delete(int id);
-    User findById(int id);
-    User findByFirstNameAndLastName(String firstName, String lastName);
-    User findByEmail(String email);
+    void create(User user) throws DaoException;
+    void update(User user) throws DaoException;
+    void delete(int id) throws DaoException;
+    User findById(int id) throws DaoException;
+    User findByFirstNameAndLastName(String firstName, String lastName) throws DaoException;
+    User findByEmail(String email) throws DaoException;
 }

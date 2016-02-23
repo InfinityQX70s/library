@@ -1,5 +1,6 @@
 package com.epam.dao.api;
 
+import com.epam.dao.api.exception.DaoException;
 import com.epam.entity.Book;
 
 import java.util.List;
@@ -9,12 +10,12 @@ import java.util.List;
  */
 public interface BookDao {
 
-    void create(Book book);
-    void update(Book book);
-    void delete(int id);
-    Book findById(int id);
-    List<Book> findByName(String name);
-    List<Book> findByGenre(int genreId);
-    List<Book> findByAuthor(int authorId);
-    List<Book> findAll();
+    void create(Book book) throws DaoException;
+    void update(Book book) throws DaoException;
+    void delete(int id) throws DaoException;
+    Book findById(int id) throws DaoException;
+    List<Book> findByName(String name) throws DaoException;
+    List<Book> findByGenre(int genreId) throws DaoException;
+    List<Book> findByAuthor(int authorId) throws DaoException;
+    List<Book> findAll() throws DaoException;
 }

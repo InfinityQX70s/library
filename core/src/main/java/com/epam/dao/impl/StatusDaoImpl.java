@@ -1,6 +1,7 @@
 package com.epam.dao.impl;
 
 import com.epam.dao.api.StatusDao;
+import com.epam.dao.api.exception.DaoException;
 import com.epam.entity.Status;
 
 import java.sql.SQLException;
@@ -16,7 +17,7 @@ public class StatusDaoImpl extends ConnectionManager implements StatusDao {
     private static final String FIND_BY_NAME = "SELECT * FROM Status WHERE name = ?";
     private static final String FIND_ALL = "SELECT * FROM Status";
 
-    public Status findById(int id) {
+    public Status findById(int id) throws DaoException {
         Status status = null;
         try {
             connect();
@@ -30,12 +31,12 @@ public class StatusDaoImpl extends ConnectionManager implements StatusDao {
             }
             close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Unknown sql exception",e);
         }
         return status;
     }
 
-    public Status findByName(String name) {
+    public Status findByName(String name) throws DaoException {
         Status status = null;
         try {
             connect();
@@ -49,12 +50,12 @@ public class StatusDaoImpl extends ConnectionManager implements StatusDao {
             }
             close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Unknown sql exception",e);
         }
         return status;
     }
 
-    public List<Status> findAll() {
+    public List<Status> findAll() throws DaoException {
         List<Status> statuses = new ArrayList<Status>();
         try {
             connect();
@@ -69,7 +70,7 @@ public class StatusDaoImpl extends ConnectionManager implements StatusDao {
             }
             close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Unknown sql exception",e);
         }
         return statuses;
     }

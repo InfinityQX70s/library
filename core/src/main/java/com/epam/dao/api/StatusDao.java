@@ -1,5 +1,6 @@
 package com.epam.dao.api;
 
+import com.epam.dao.api.exception.DaoException;
 import com.epam.entity.Status;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  */
 public interface StatusDao {
 
-    Status findById(int id);
-    Status findByName(String name);
-    List<Status> findAll();
+    Status findById(int id) throws DaoException;
+    Status findByName(String name) throws DaoException;
+    List<Status> findAll() throws DaoException;
 }

@@ -6,8 +6,7 @@ package com.epam.entity;
 public class Author {
 
     private int id;
-    private String firstName;
-    private String lastName;
+    private String alias;
 
     public int getId() {
         return id;
@@ -17,19 +16,11 @@ public class Author {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getAlias() {
+        return alias;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 }
