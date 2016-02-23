@@ -3,13 +3,12 @@ package com.epam.dao.impl;
 import com.epam.dao.api.UserDao;
 import com.epam.entity.User;
 
-import javax.jws.soap.SOAPBinding;
 import java.sql.SQLException;
 
 /**
  * Created by infinity on 19.02.16.
  */
-public class UserDaoImpl extends ManagerDao implements UserDao {
+public class UserDaoImpl extends ConnectionManager implements UserDao {
 
     private static final String CREATE = "INSERT INTO User (email, password, firstName, lastName, isLibrarian) VALUES(?,?,?,?,?)";
     private static final String UPDATE = "UPDATE User SET email = ?, password = ?, firstName = ?, lastName = ?, isLibrarian = ? WHERE id = ?";

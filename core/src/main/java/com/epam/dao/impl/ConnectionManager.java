@@ -1,6 +1,6 @@
 package com.epam.dao.impl;
 
-import com.epam.dao.ConnectionPool;
+import com.epam.ConnectionPool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,14 +10,14 @@ import java.sql.SQLException;
 /**
  * Created by infinity on 18.02.16.
  */
-public class ManagerDao {
+public class ConnectionManager {
 
     protected Connection connection;
     protected PreparedStatement preparedStatement;
     protected ResultSet resultSet;
 
 
-    protected void connect() throws SQLException {
+    protected void connect() throws SQLException{
         connection = ConnectionPool.getInstance().getConnection();
     }
 

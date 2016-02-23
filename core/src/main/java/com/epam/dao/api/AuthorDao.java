@@ -1,5 +1,6 @@
 package com.epam.dao.api;
 
+import com.epam.dao.api.exception.DaoException;
 import com.epam.entity.Author;
 
 import java.util.List;
@@ -9,10 +10,10 @@ import java.util.List;
  */
 public interface AuthorDao {
 
-    void create(Author author);
-    void update(Author author);
-    void delete(int id);
-    Author findByFirstNameAndLastName(String firstName, String lastName);
-    Author findById(int id);
-    List<Author> findAll();
+    void create(Author author) throws DaoException;
+    void update(Author author) throws DaoException;
+    void delete(int id) throws DaoException;
+    Author findByFirstNameAndLastName(String firstName, String lastName) throws DaoException;
+    Author findById(int id) throws DaoException;
+    List<Author> findAll() throws DaoException;
 }

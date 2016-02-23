@@ -1,6 +1,5 @@
 package com.epam.dao.api;
 
-import com.epam.entity.Book;
 import com.epam.entity.BookOrder;
 
 import java.util.List;

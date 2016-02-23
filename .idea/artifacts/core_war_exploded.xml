@@ -6,6 +6,11 @@
         <element id="directory" name="classes">
           <element id="module-output" name="core" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: commons-dbcp:commons-dbcp:1.4" />
+          <element id="library" level="project" name="Maven: commons-pool:commons-pool:1.5.4" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.6" />
+        </element>
       </element>
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/core/target/core/META-INF/MANIFEST.MF" />

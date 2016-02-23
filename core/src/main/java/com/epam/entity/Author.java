@@ -1,7 +1,5 @@
 package com.epam.entity;
 
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
-
 /**
  * Created by infinity on 18.02.16.
  */

@@ -1,5 +1,6 @@
 package com.epam.dao.api;
 
+import com.epam.dao.api.exception.DaoException;
 import com.epam.entity.Genre;
 
 import java.util.List;
@@ -9,10 +10,10 @@ import java.util.List;
  */
 public interface GenreDao {
 
-    void create(Genre genre);
-    void update(Genre genre);
-    void delete(int id);
-    Genre findById(int id);
-    Genre findByName(String name);
-    List<Genre> findAll();
+    void create(Genre genre) throws DaoException;
+    void update(Genre genre) throws DaoException;
+    void delete(int id) throws DaoException;
+    Genre findById(int id) throws DaoException;
+    Genre findByName(String name) throws DaoException;
+    List<Genre> findAll() throws DaoException;
 }

@@ -1,7 +1,6 @@
 package com.epam.dao.impl;
 
 import com.epam.dao.api.BookOrderDao;
-import com.epam.entity.Book;
 import com.epam.entity.BookOrder;
 
 import java.sql.SQLException;
@@ -11,7 +10,7 @@ import java.util.List;
 /**
  * Created by infinity on 22.02.16.
  */
-public class BookOrderDaoImpl extends ManagerDao implements BookOrderDao{
+public class BookOrderDaoImpl extends ConnectionManager implements BookOrderDao{
 
     private static final String CREATE = "INSERT INTO BookOrder (userId, bookId, statusId) VALUES(?,?,?)";
     private static final String UPDATE = "UPDATE BookOrder SET userId=?, bookId=?, statusId=? WHERE id = ?";
@@ -147,7 +146,7 @@ public class BookOrderDaoImpl extends ManagerDao implements BookOrderDao{
         try {
             connect();
             Object[] params = {};
-            resultSet = executeQuery(FIND_BY_STATUS,params);
+            resultSet = executeQuery(FIND_ALL,params);
             while (resultSet.next()){
                 int i = 1;
                 BookOrder bookOrder = new BookOrder();

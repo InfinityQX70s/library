@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by infinity on 19.02.16.
  */
-public class BookDaoImpl extends ManagerDao implements BookDao {
+public class BookDaoImpl extends ConnectionManager implements BookDao {
 
     private static final String CREATE = "INSERT INTO Book (name, count, year,  authorId, genreId) VALUES(?,?,?,?,?)";
     private static final String UPDATE = "UPDATE Book SET name=?, count=?, year=?, authorId=?, genreId=? WHERE id = ?";

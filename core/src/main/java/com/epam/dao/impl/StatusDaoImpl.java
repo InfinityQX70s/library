@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by infinity on 19.02.16.
  */
-public class StatusDaoImpl extends ManagerDao implements StatusDao {
+public class StatusDaoImpl extends ConnectionManager implements StatusDao {
 
     private static final String FIND_BY_ID = "SELECT * FROM Status WHERE id = ?";
     private static final String FIND_BY_NAME = "SELECT * FROM Status WHERE name = ?";

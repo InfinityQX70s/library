@@ -2,8 +2,6 @@ package com.epam.dao.api;
 
 import com.epam.entity.User;
 
-import javax.jws.soap.SOAPBinding;
-
 /**
  * Created by infinity on 19.02.16.
  */

@@ -1,7 +1,5 @@
 package com.epam.entity;
 
-import java.util.Date;
-
 /**
  * Created by infinity on 18.02.16.
  */
