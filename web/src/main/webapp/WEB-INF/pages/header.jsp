@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: infinity
-  Date: 14.02.16
-  Time: 18:12
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -20,5 +14,9 @@
     <script type="text/javascript" src="/js/materialize.min.js"></script>
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <
+    <script type="text/javascript" >
+        $(document).ready(function(){
+            $('select').material_select();
+        });
+    </script>
 </head>

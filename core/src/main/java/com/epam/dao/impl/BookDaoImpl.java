@@ -25,7 +25,7 @@ public class BookDaoImpl extends ConnectionManager implements BookDao {
     public void create(Book book) throws DaoException {
         try {
             connect();
-            Object[] params = {book.getName(),book.getCount(),book.getYear(),book.getAuthorId(),book.getGenreId()};
+            Object[] params = {book.getId(), book.getName(),book.getCount(),book.getYear(),book.getAuthorId(),book.getGenreId()};
             execute(CREATE,params);
             close();
         } catch (SQLException e) {
