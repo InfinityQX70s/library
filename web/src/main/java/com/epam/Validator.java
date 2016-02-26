@@ -48,4 +48,12 @@ public class Validator {
             throw new ControllerException("Book number format exception", ControllerStatusCode.VALIDATE);
         }
     }
+
+    public void validateOrderNumber(String number) throws ControllerException {
+        try {
+            Integer.parseInt(number);
+        }catch (NumberFormatException e){
+            throw new ControllerException("Order number format exception", ControllerStatusCode.VALIDATE);
+        }
+    }
 }

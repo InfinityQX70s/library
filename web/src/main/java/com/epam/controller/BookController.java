@@ -8,6 +8,7 @@ import com.epam.entity.Author;
 import com.epam.entity.Book;
 import com.epam.entity.Genre;
 import com.epam.service.api.AuthorService;
+import com.epam.service.api.BookOrderService;
 import com.epam.service.api.BookService;
 import com.epam.service.api.GenreService;
 import com.epam.service.api.exception.ServiceException;
@@ -30,6 +31,7 @@ public class BookController implements BaseController {
     private BookService bookService = appContext.getBookService();
     private GenreService genreService = appContext.getGenreService();
     private AuthorService authorService = appContext.getAuthorService();
+    private BookOrderService bookOrderService = appContext.getBookOrderService();
     private Validator validator = appContext.getValidator();
 
     public void execute(ServletContext servletContext, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -52,6 +54,8 @@ public class BookController implements BaseController {
                     searchBook(request, response);
                 else if (uri.length == 4 && uri[3].equals("delete"))
                     deleteBook(request, response);
+                else if (uri.length == 4 && uri[3].equals("assign"))
+                    assignBook(request, response);
                 else if (uri.length == 4 && uri[3].equals("change"))
                     changeBook(request, response);
                 else
@@ -90,6 +94,18 @@ public class BookController implements BaseController {
             request.setAttribute("genre", genre);
             request.getRequestDispatcher("/WEB-INF/pages/book/bookAdd.jsp").forward(request, response);
         } catch (ServiceException e) {
+            request.setAttribute("error", e);
+            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+        }
+    }
+
+    private void assignBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            String number = request.getParameter("number");
+            validator.validateBookNumber(number);
+            bookOrderService.createBookOrder(Integer.parseInt(number),"mazumisha@gmail.com");
+            response.sendRedirect("/orders");
+        } catch (ServiceException | ControllerException e) {
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }

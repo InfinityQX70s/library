@@ -40,6 +40,7 @@
         <th data-field="count">Count</th>
         <th data-field="genre">Genre</th>
         <th data-field="author">Author</th>
+        <th data-field="assign"></th>
         <th data-field="change"></th>
         <th data-field="delete"></th>
     </tr>
@@ -59,6 +60,14 @@
             <td><c:out value="${mapGenres[book.genreId].name}"/>
             </td>
             <td><c:out value="${mapAuthor[book.authorId].alias}"/>
+            </td>
+            <td>
+                <form action="/books/assign" method="post">
+                    <input type="hidden" name="number" value="<c:out value="${book.id}"/>">
+                    <a class="secondary-content" onclick="parentNode.submit();">
+                        <i class="material-icons">bookmark</i>
+                    </a>
+                </form>
             </td>
             <td>
                 <a href="/books/<c:out value="${book.id}"/>/edit" class="secondary-content">

@@ -14,5 +14,6 @@ public interface BookOrderService {
     void setStatusBookOrder(int idBookOrder, String statusName) throws ServiceException;
     List<BookOrder> findOrdersByUser(String email) throws ServiceException;
     List<BookOrder> findOrdersByStatus(String statusName) throws ServiceException;
-    List<BookOrder> filnAllBookOrders() throws ServiceException;
+    List<BookOrder> findAllBookOrders() throws ServiceException;
+    BookOrder findOrderById(int id) throws ServiceException;
 }

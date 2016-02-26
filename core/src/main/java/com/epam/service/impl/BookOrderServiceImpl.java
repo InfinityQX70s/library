@@ -50,13 +50,13 @@ public class BookOrderServiceImpl extends TransactionManager implements BookOrde
                 book.setCount(book.getCount() - 1);
                 bookDao.update(book);
             }
-            if (book == null)
+            else if (book == null)
                 throw new ServiceException("Book not found", ServiceStatusCode.NOT_FOUND);
-            if (user == null)
+            else if (user == null)
                 throw new ServiceException("User not found", ServiceStatusCode.NOT_FOUND);
-            if (status == null)
+            else if (status == null)
                 throw new ServiceException("Status not found", ServiceStatusCode.NOT_FOUND);
-            if (book.getCount() == 0)
+            else if (book.getCount() == 0)
                 throw new ServiceException("Book count too small", ServiceStatusCode.NOT_FOUND);
         } catch (DaoException e) {
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
@@ -67,10 +67,11 @@ public class BookOrderServiceImpl extends TransactionManager implements BookOrde
         try {
             BookOrder bookOrder = bookOrderDao.findById(idBookOrder);
             Status status = statusDao.findByName(statusName);
-            if (bookOrder != null && status != null) {
+            if (bookOrder != null && status != null && status.getId()!=bookOrder.getStatusId()) {
                 bookOrder.setStatusId(status.getId());
                 bookOrderDao.update(bookOrder);
-                if (STATUS_CLOSE.equals(status)){
+                if (STATUS_CLOSE.equals(statusName)){
+                    bookOrderDao.delete(bookOrder.getId());
                     Book book = bookDao.findById(bookOrder.getBookId());
                     if (book != null){
                         book.setCount(book.getCount()+1);
@@ -79,10 +80,12 @@ public class BookOrderServiceImpl extends TransactionManager implements BookOrde
                         throw new ServiceException("Book not found", ServiceStatusCode.NOT_FOUND);
                 }
             }
-            if (bookOrder == null)
+            else if (bookOrder == null)
                 throw new ServiceException("BookOrder not found", ServiceStatusCode.NOT_FOUND);
-            if (status == null)
+            else if (status == null)
                 throw new ServiceException("Status not found", ServiceStatusCode.NOT_FOUND);
+            else if (status.getId()==bookOrder.getStatusId())
+                throw new ServiceException("BookOrder already has this status", ServiceStatusCode.NOT_FOUND);
         } catch (DaoException e) {
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
@@ -100,6 +103,18 @@ public class BookOrderServiceImpl extends TransactionManager implements BookOrde
         }
     }
 
+    public BookOrder findOrderById(int id) throws ServiceException {
+        try {
+            BookOrder bookOrder = bookOrderDao.findById(id);
+            if (bookOrder != null)
+                return bookOrder;
+            else
+                throw new ServiceException("Order not found", ServiceStatusCode.NOT_FOUND);
+        } catch (DaoException e) {
+            throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
+        }
+    }
+
     public List<BookOrder> findOrdersByStatus(String statusName) throws ServiceException {
         try {
             Status status = statusDao.findByName(statusName);
@@ -112,7 +127,7 @@ public class BookOrderServiceImpl extends TransactionManager implements BookOrde
         }
     }
 
-    public List<BookOrder> filnAllBookOrders() throws ServiceException {
+    public List<BookOrder> findAllBookOrders() throws ServiceException {
         try {
             return bookOrderDao.findAll();
         } catch (DaoException e) {

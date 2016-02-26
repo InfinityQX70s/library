@@ -25,6 +25,7 @@ public class AppContext {
     private BookService bookService;
     private GenreService genreService;
     private UserService userService;
+    private StatusService statusService;
 
     private AuthorController authorController;
     private BookController bookController;
@@ -123,6 +124,13 @@ public class AppContext {
             userService = new UserServiceImpl(getUserDao());
         }
         return userService;
+    }
+
+    public synchronized StatusService getStatusService() {
+        if (statusService == null){
+            statusService = new StatusServiceImpl(getStatusDao());
+        }
+        return statusService;
     }
 
     public synchronized AuthorController getAuthorController() {
