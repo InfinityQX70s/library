@@ -14,9 +14,9 @@ import java.util.List;
 public class BookOrderDaoImpl extends ConnectionManager implements BookOrderDao{
 
     private static final String CREATE = "INSERT INTO BookOrder (userId, bookId, statusId) VALUES(?,?,?)";
-    private static final String UPDATE = "UPDATE BookOrder SET userId=?, bookId=?, statusId=? WHERE idBookOrder = ?";
-    private static final String DELETE = "DELETE FROM BookOrder WHERE idBookOrder = ?";
-    private static final String FIND_BY_ID = "SELECT * FROM BookOrder WHERE idBookOrder = ?";
+    private static final String UPDATE = "UPDATE BookOrder SET userId=?, bookId=?, statusId=? WHERE id = ?";
+    private static final String DELETE = "DELETE FROM BookOrder WHERE id = ?";
+    private static final String FIND_BY_ID = "SELECT * FROM BookOrder WHERE id = ?";
     private static final String FIND_BY_USER = "SELECT * FROM BookOrder WHERE userId = ?";
     private static final String FIND_BY_BOOK = "SELECT * FROM BookOrder WHERE bookId = ?";
     private static final String FIND_BY_STATUS = "SELECT * FROM BookOrder WHERE statusId = ?";

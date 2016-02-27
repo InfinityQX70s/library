@@ -15,6 +15,7 @@ public class ControllerFactory {
     private GenreController genreController = appContext.getGenreController();
     private LoginController loginController = appContext.getLoginController();
     private ErrorController errorController = appContext.getErrorController();
+    private RegisterController registerController = appContext.getRegisterController();
 
     public BaseController getControllerByUri(String uri) {
         if (uri.startsWith("/library/author"))
@@ -25,6 +26,8 @@ public class ControllerFactory {
             return bookController;
         else if (uri.startsWith("/library/log"))
             return loginController;
+        else if (uri.startsWith("/library/registrat"))
+            return registerController;
         else if (uri.startsWith("/library/order"))
             return bookOrderController;
         return errorController;

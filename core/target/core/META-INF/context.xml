@@ -1,6 +1,0 @@
-<Context>
-    <ResourceLink name="jdbc/Library"
-                  global="jdbc/library"
-                  auth="Container"
-                  type="javax.sql.DataSource" />
-</Context>

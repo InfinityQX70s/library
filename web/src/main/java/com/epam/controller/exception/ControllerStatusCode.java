@@ -5,5 +5,5 @@ package com.epam.controller.exception;
  */
 public enum ControllerStatusCode {
 
-    PAGE_NOT_FOUND, VALIDATE
+    PAGE_NOT_FOUND, VALIDATE, WRONG_EMAIL_PASS
 }

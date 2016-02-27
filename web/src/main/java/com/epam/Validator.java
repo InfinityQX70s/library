@@ -8,11 +8,36 @@ import com.epam.controller.exception.ControllerStatusCode;
  */
 public class Validator {
 
+    private static final String EMAIL_PATTERN =
+            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
     public void validateGenreAndAuthorNumber(String number) throws ControllerException {
         try {
             Integer.parseInt(number);
         }catch (NumberFormatException e){
             throw new ControllerException("Author or Genre number format exception", ControllerStatusCode.VALIDATE);
+        }
+    }
+
+    public void validateEmail(String email) throws ControllerException {
+        if (!email.matches(EMAIL_PATTERN)){
+            throw new ControllerException("User email format exception", ControllerStatusCode.VALIDATE);
+        }
+    }
+
+    public void validateUser(String email, String password, String firstName, String lastName) throws ControllerException {
+        if (!email.matches(EMAIL_PATTERN)){
+            throw new ControllerException("User email format exception", ControllerStatusCode.VALIDATE);
+        }
+        if (password.isEmpty()){
+            throw new ControllerException("Password field is empty", ControllerStatusCode.VALIDATE);
+        }
+        if(firstName.isEmpty()){
+            throw new ControllerException("First name field is empty", ControllerStatusCode.VALIDATE);
+        }
+        if (lastName.isEmpty()){
+            throw new ControllerException("Last name field is empty", ControllerStatusCode.VALIDATE);
         }
     }
 

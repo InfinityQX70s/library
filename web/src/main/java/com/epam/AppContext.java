@@ -33,6 +33,7 @@ public class AppContext {
     private ErrorController errorController;
     private GenreController genreController;
     private LoginController loginController;
+    private RegisterController registerController;
 
     private ControllerFactory controllerFactory;
 
@@ -180,6 +181,13 @@ public class AppContext {
             controllerFactory = new ControllerFactory();
         }
         return controllerFactory;
+    }
+
+    public synchronized RegisterController getRegisterController() {
+        if (registerController == null){
+            registerController = new RegisterController();
+        }
+        return registerController;
     }
 
     public synchronized Validator getValidator() {

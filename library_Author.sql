@@ -1,0 +1,10 @@
+INSERT INTO library.Author (id, alias) VALUES (1, 'Alexander Pushkin');
+INSERT INTO library.Author (id, alias) VALUES (2, 'Leo Tolstoy');
+INSERT INTO library.Author (id, alias) VALUES (3, 'Nikolai Gogol');
+INSERT INTO library.Author (id, alias) VALUES (4, 'Anna Akhmatova');
+INSERT INTO library.Author (id, alias) VALUES (5, 'Mikhail Bulgakov');
+INSERT INTO library.Author (id, alias) VALUES (6, 'Boris Akunin');
+INSERT INTO library.Author (id, alias) VALUES (7, 'Bella Akhmadulina');
+INSERT INTO library.Author (id, alias) VALUES (8, 'Maxim Gorky');
+INSERT INTO library.Author (id, alias) VALUES (9, 'Fyodor Dostoyevsky');
+INSERT INTO library.Author (id, alias) VALUES (10, 'Ivan Bunin');

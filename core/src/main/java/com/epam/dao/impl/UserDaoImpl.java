@@ -11,7 +11,7 @@ import java.sql.SQLException;
  */
 public class UserDaoImpl extends ConnectionManager implements UserDao {
 
-    private static final String CREATE = "INSERT INTO User (id, email, password, firstName, lastName, isLibrarian) VALUES(?,?,?,?,?,?)";
+    private static final String CREATE = "INSERT INTO User (email, password, firstName, lastName, isLibrarian) VALUES(?,?,?,?,?)";
     private static final String UPDATE = "UPDATE User SET email = ?, password = ?, firstName = ?, lastName = ?, isLibrarian = ? WHERE id = ?";
     private static final String DELETE = "DELETE FROM User WHERE id = ?";
     private static final String FIND_BY_ID = "SELECT * FROM User WHERE id = ?";
@@ -21,7 +21,7 @@ public class UserDaoImpl extends ConnectionManager implements UserDao {
     public void create(User user) throws DaoException {
         try {
             connect();
-            Object[] params = {user.getId(), user.getEmail(), user.getPassword(), user.getFirstName(), user.getLastName(), user.isLibrarian()};
+            Object[] params = {user.getEmail(), user.getPassword(), user.getFirstName(), user.getLastName(), user.isLibrarian()};
             execute(CREATE, params);
             close();
         } catch (SQLException e) {
