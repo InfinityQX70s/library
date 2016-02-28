@@ -9,13 +9,13 @@
     <jsp:param name="genre" value=""/>
     <jsp:param name="order" value=""/>
 </jsp:include>
-<div class="row col s6 offset-s4" style="margin-top:30px;">
+<div class="row col s8 offset-s4">
     <form method="post" action="/books/search">
-        <div class="input-field col s4">
+        <div class="input-field col s5">
             <input id="value" name="value" type="text" class="validate">
             <label for="value">Search Value</label>
         </div>
-        <div class="input-field col s4">
+        <div class="input-field col s2">
             <select name="type">
                 <option value="name">Name</option>
                 <option value="genre">Genre</option>
@@ -23,9 +23,8 @@
             </select>
             <label>Search Type</label>
         </div>
-        <div class="col s4">
+        <div class="col s1">
             <button class="btn waves-effect waves-light" type="submit" name="action" style="margin-top:20px;">Search
-                <i class="material-icons right">send</i>
             </button>
         </div>
     </form>
@@ -101,5 +100,13 @@
             <i class="material-icons">add</i></a>
     </div>
 </c:if>
-
+<c:if test="${requestScope.pageCount ne 1}">
+<div class="row col s6 offset-s4 center-align">
+    <ul class="pagination text-white">
+            <c:forEach begin="1" end="${requestScope.pageCount}" varStatus="loop">
+                <li class="waves-effect light-blue"><a href="/books?page=<c:out value="${loop.index}"/>"><c:out value="${loop.index}"/></a></li>
+            </c:forEach>
+    </ul>
+</div>
+</c:if>
 <jsp:include page="../footer.jsp"/>

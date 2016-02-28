@@ -15,4 +15,5 @@ public interface GenreService {
     void deleteGenre(int id) throws ServiceException;
     Genre findGenreById(int id) throws ServiceException;
     List<Genre> findAllGenres() throws ServiceException;
+    List<Genre> findAllByOffset(int page) throws ServiceException;
 }

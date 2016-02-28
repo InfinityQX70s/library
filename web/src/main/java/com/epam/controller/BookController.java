@@ -51,7 +51,7 @@ public class BookController implements BaseController {
             if (request.getMethod().equals("POST")) {
                 if (uri.length == 4 && uri[3].equals("add"))
                     addBook(request, response);
-                if (uri.length == 4 && uri[3].equals("search"))
+                else if (uri.length == 4 && uri[3].equals("search"))
                     searchBook(request, response);
                 else if (uri.length == 4 && uri[3].equals("delete"))
                     deleteBook(request, response);
@@ -61,7 +61,7 @@ public class BookController implements BaseController {
                     changeBook(request, response);
                 else
                     throw new ControllerException("Page not found", ControllerStatusCode.PAGE_NOT_FOUND);
-            }
+             }
         } catch (ControllerException e) {
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
@@ -70,13 +70,22 @@ public class BookController implements BaseController {
 
     private void showBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            List<Book> books = bookService.findAllBooks();
+            List<Book> utilElem = bookService.findAllBooks();
+            int pageCount = (int) Math.ceil(utilElem.size()/7.0);
+            String page = request.getParameter("page");
+            List<Book> books;
+            if (page == null){
+                books = bookService.findAllByOffset(0);
+            }else{
+                books = bookService.findAllByOffset(Integer.parseInt(page)-1);
+            }
             Map<Integer,Genre> mapGenres = new HashMap<>();
             Map<Integer,Author> mapAuthor = new HashMap<>();
             for (Book book : books){
                 mapGenres.put(book.getGenreId(),genreService.findGenreById(book.getGenreId()));
-                mapAuthor.put(book.getAuthorId(),authorService.findAuthorById(book.getGenreId()));
+                mapAuthor.put(book.getAuthorId(),authorService.findAuthorById(book.getAuthorId()));
             }
+            request.setAttribute("pageCount", pageCount);
             request.setAttribute("mapAuthor", mapAuthor);
             request.setAttribute("mapGenres", mapGenres);
             request.setAttribute("books", books);
@@ -133,7 +142,7 @@ public class BookController implements BaseController {
             Map<Integer,Author> mapAuthor = new HashMap<>();
             for (Book book : books){
                 mapGenres.put(book.getGenreId(),genreService.findGenreById(book.getGenreId()));
-                mapAuthor.put(book.getAuthorId(),authorService.findAuthorById(book.getGenreId()));
+                mapAuthor.put(book.getAuthorId(),authorService.findAuthorById(book.getAuthorId()));
             }
             request.setAttribute("mapAuthor", mapAuthor);
             request.setAttribute("mapGenres", mapGenres);

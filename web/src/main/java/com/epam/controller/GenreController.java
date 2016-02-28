@@ -56,7 +56,16 @@ public class GenreController implements BaseController {
 
     private void showGenre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            List<Genre> genres = genreService.findAllGenres();
+            List<Genre> utilElem = genreService.findAllGenres();
+            int pageCount = (int) Math.ceil(utilElem.size()/7.0);
+            String page = request.getParameter("page");
+            List<Genre> genres;
+            if (page == null){
+                genres = genreService.findAllByOffset(0);
+            }else{
+                genres = genreService.findAllByOffset(Integer.parseInt(page)-1);
+            }
+            request.setAttribute("pageCount", pageCount);
             request.setAttribute("genres", genres);
             request.getRequestDispatcher("/WEB-INF/pages/genre/genre.jsp").forward(request, response);
         } catch (ServiceException e) {

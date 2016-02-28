@@ -22,6 +22,8 @@ public class BookDaoImpl extends ConnectionManager implements BookDao {
     private static final String FIND_BY_GENRE = "SELECT * FROM Book WHERE genreId = ?";
     private static final String FIND_ALL = "SELECT * FROM Book";
     private static final String SEARCH_BY_NAME = "SELECT * FROM Book WHERE name LIKE ?;";
+    private static final String FIND_ALL_BY_OFFSET = "SELECT * FROM Book LIMIT ?,7;";
+
 
 
     public void create(Book book) throws DaoException {
@@ -184,6 +186,31 @@ public class BookDaoImpl extends ConnectionManager implements BookDao {
             String wildcards = "%" + name + "%";
             Object[] params = {wildcards};
             resultSet = executeQuery(SEARCH_BY_NAME,params);
+            while (resultSet.next()){
+                int i = 1;
+                Book book = new Book();
+                book.setId(resultSet.getInt(i++));
+                book.setName(resultSet.getString(i++));
+                book.setCount(resultSet.getInt(i++));
+                book.setYear(resultSet.getInt(i++));
+                book.setAuthorId(resultSet.getInt(i++));
+                book.setGenreId(resultSet.getInt(i));
+                books.add(book);
+            }
+            close();
+        } catch (SQLException e) {
+            throw new DaoException("Unknown sql exception",e);
+        }
+        return books;
+    }
+
+    @Override
+    public List<Book> findAllByOffset(int page) throws DaoException {
+        List<Book> books = new ArrayList<Book>();
+        try {
+            connect();
+            Object[] params = {page*7};
+            resultSet = executeQuery(FIND_ALL_BY_OFFSET,params);
             while (resultSet.next()){
                 int i = 1;
                 Book book = new Book();

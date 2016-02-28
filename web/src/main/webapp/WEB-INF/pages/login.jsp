@@ -31,7 +31,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-action center">
+                <div class="card-action right-align">
                     <a href="#" onclick="document.forms[0].submit();">log in</a>
                     <a href="/registration">registration</a>
                 </div>

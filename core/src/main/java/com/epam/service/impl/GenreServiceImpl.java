@@ -87,4 +87,13 @@ public class GenreServiceImpl extends TransactionManager implements GenreService
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
+
+    @Override
+    public List<Genre> findAllByOffset(int page) throws ServiceException {
+        try {
+            return genreDao.findAllByOffset(page);
+        } catch (DaoException e) {
+            throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
+        }
+    }
 }

@@ -44,11 +44,11 @@ public class BookServiceImpl extends TransactionManager implements BookService{
                 book.setGenreId(genre.getId());
                 bookDao.create(book);
             }
-            if (element != null)
+            else if (element != null)
                 throw new ServiceException("Book with such identifier exist", ServiceStatusCode.ALREADY_EXIST);
-            if (author == null)
+            else if (author == null)
                 throw new ServiceException("Author not found", ServiceStatusCode.NOT_FOUND);
-            if (genre == null)
+            else if (genre == null)
                 throw new ServiceException("Genre not found", ServiceStatusCode.NOT_FOUND);
         } catch (DaoException e) {
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
@@ -131,7 +131,7 @@ public class BookServiceImpl extends TransactionManager implements BookService{
             List<Book> books = new ArrayList<>();
             List<Author> authors = authorDao.searchByName(alias);
             for (Author author : authors){
-                books.addAll(bookDao.findByGenre(author.getId()));
+                books.addAll(bookDao.findByAuthor(author.getId()));
             }
             return books;
         } catch (DaoException e) {
@@ -151,6 +151,15 @@ public class BookServiceImpl extends TransactionManager implements BookService{
     public List<Book> searchByName(String name) throws ServiceException {
         try {
             return bookDao.searchByName(name);
+        } catch (DaoException e) {
+            throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
+        }
+    }
+
+    @Override
+    public List<Book> findAllByOffset(int page) throws ServiceException {
+        try {
+            return bookDao.findAllByOffset(page);
         } catch (DaoException e) {
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }

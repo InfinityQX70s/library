@@ -20,6 +20,7 @@ public class GenreDaoImpl extends ConnectionManager implements GenreDao {
     private static final String FIND_BY_NAME = "SELECT * FROM Genre WHERE name = ?";
     private static final String FIND_ALL = "SELECT * FROM Genre";
     private static final String SEARCH_BY_NAME = "SELECT * FROM Genre WHERE name LIKE ?;";
+    private static final String FIND_ALL_BY_OFFSET = "SELECT * FROM Genre LIMIT ?,7;";
 
     public void create(Genre genre) throws DaoException {
         try {
@@ -120,6 +121,27 @@ public class GenreDaoImpl extends ConnectionManager implements GenreDao {
             String wildcards = "%" + name + "%";
             Object[] params = {wildcards};
             resultSet = executeQuery(SEARCH_BY_NAME,params);
+            while (resultSet.next()){
+                int i = 1;
+                Genre genre = new Genre();
+                genre.setId(resultSet.getInt(i++));
+                genre.setName(resultSet.getString(i));
+                genres.add(genre);
+            }
+            close();
+        } catch (SQLException e) {
+            throw new DaoException("Unknown sql exception",e);
+        }
+        return genres;
+    }
+
+    @Override
+    public List<Genre> findAllByOffset(int page) throws DaoException {
+        List<Genre> genres = new ArrayList<Genre>();
+        try {
+            connect();
+            Object[] params = {page*7};
+            resultSet = executeQuery(FIND_ALL_BY_OFFSET,params);
             while (resultSet.next()){
                 int i = 1;
                 Genre genre = new Genre();

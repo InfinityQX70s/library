@@ -19,4 +19,6 @@ public interface BookDao {
     List<Book> findByAuthor(int authorId) throws DaoException;
     List<Book> findAll() throws DaoException;
     List<Book> searchByName(String name) throws DaoException;
+    List<Book> findAllByOffset(int page) throws DaoException;
+
 }
