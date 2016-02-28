@@ -88,7 +88,7 @@ public class GenreController implements BaseController {
     private void deleteGenre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String number = request.getParameter("number");
-            validator.validateGenreAndAuthorNumber(number);
+            validator.validateGenreAuthorAndrOrderNumber(number);
             genreService.deleteGenre(Integer.parseInt(number));
             response.sendRedirect("/genres");
         } catch (ServiceException | ControllerException e) {
@@ -99,7 +99,7 @@ public class GenreController implements BaseController {
 
     private void showFormForChangeGenre(HttpServletRequest request, HttpServletResponse response, String number) throws ServletException, IOException {
         try {
-            validator.validateGenreAndAuthorNumber(number);
+            validator.validateGenreAuthorAndrOrderNumber(number);
             Genre genre = genreService.findGenreById(Integer.parseInt(number));
             request.setAttribute("genre", genre);
             request.getRequestDispatcher("/WEB-INF/pages/genre/genreEdit.jsp").forward(request, response);

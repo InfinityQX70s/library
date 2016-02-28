@@ -15,4 +15,5 @@ public interface AuthorService {
     void deleteAuthor(int id) throws ServiceException;
     Author findAuthorById(int id) throws ServiceException;
     List<Author> findAllAuthors() throws ServiceException;
+    List<Author> findAllByOffset(int page) throws ServiceException;
 }

@@ -7,6 +7,7 @@ import com.epam.controller.exception.ControllerStatusCode;
 import com.epam.entity.Author;
 import com.epam.entity.Book;
 import com.epam.entity.Genre;
+import com.epam.entity.User;
 import com.epam.service.api.AuthorService;
 import com.epam.service.api.BookOrderService;
 import com.epam.service.api.BookService;
@@ -103,7 +104,8 @@ public class BookController implements BaseController {
         try {
             String number = request.getParameter("number");
             validator.validateBookNumber(number);
-            bookOrderService.createBookOrder(Integer.parseInt(number),"mazumisha@gmail.com");
+            User user = (User) request.getSession().getAttribute("entity");
+            bookOrderService.createBookOrder(Integer.parseInt(number),user.getEmail());
             response.sendRedirect("/orders");
         } catch (ServiceException | ControllerException e) {
             request.setAttribute("error", e);
@@ -118,7 +120,7 @@ public class BookController implements BaseController {
             List<Book> books = null;
             switch (type){
                 case "name":
-                    books = bookService.findBookByName(value);
+                    books = bookService.searchByName(value);
                     break;
                 case "genre":
                     books = bookService.findBookByGenre(value);
@@ -127,6 +129,14 @@ public class BookController implements BaseController {
                     books = bookService.findBookByAuthor(value);
                     break;
             }
+            Map<Integer,Genre> mapGenres = new HashMap<>();
+            Map<Integer,Author> mapAuthor = new HashMap<>();
+            for (Book book : books){
+                mapGenres.put(book.getGenreId(),genreService.findGenreById(book.getGenreId()));
+                mapAuthor.put(book.getAuthorId(),authorService.findAuthorById(book.getGenreId()));
+            }
+            request.setAttribute("mapAuthor", mapAuthor);
+            request.setAttribute("mapGenres", mapGenres);
             request.setAttribute("books", books);
             request.getRequestDispatcher("/WEB-INF/pages/book/book.jsp").forward(request, response);
         } catch (ServiceException e) {

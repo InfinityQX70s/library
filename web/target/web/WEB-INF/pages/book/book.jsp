@@ -31,7 +31,7 @@
     </form>
 </div>
 <p></p>
-<table style="margin-top:50px;" class="bordered centered z-depth-2 col s6 offset-s4">
+<table class="bordered centered z-depth-2 col s6 offset-s4">
     <thead>
     <tr>
         <th data-field="id">Number</th>
@@ -40,9 +40,13 @@
         <th data-field="count">Count</th>
         <th data-field="genre">Genre</th>
         <th data-field="author">Author</th>
-        <th data-field="assign"></th>
-        <th data-field="change"></th>
-        <th data-field="delete"></th>
+        <c:if test="${sessionScope.role eq 'librarian'}">
+            <th data-field="change"></th>
+            <th data-field="delete"></th>
+        </c:if>
+        <c:if test="${sessionScope.role eq 'consumer'}">
+            <th data-field="assign"></th>
+        </c:if>
     </tr>
     </thead>
 
@@ -61,34 +65,41 @@
             </td>
             <td><c:out value="${mapAuthor[book.authorId].alias}"/>
             </td>
-            <td>
-                <form action="/books/assign" method="post">
-                    <input type="hidden" name="number" value="<c:out value="${book.id}"/>">
-                    <a class="secondary-content" onclick="parentNode.submit();">
-                        <i class="material-icons">bookmark</i>
+            <c:if test="${sessionScope.role eq 'librarian'}">
+                <td>
+                    <a href="/books/<c:out value="${book.id}"/>/edit" class="secondary-content">
+                        <i class="material-icons">create</i>
                     </a>
-                </form>
-            </td>
-            <td>
-                <a href="/books/<c:out value="${book.id}"/>/edit" class="secondary-content">
-                    <i class="material-icons">create</i>
-                </a>
-            </td>
-            <td>
-                <form action="/books/delete" method="post">
-                    <input type="hidden" name="number" value="<c:out value="${book.id}"/>">
-                    <a class="secondary-content" style="margin-right:20px;" onclick="parentNode.submit();">
-                        <i class="material-icons">clear</i>
-                    </a>
-                </form>
-            </td>
+                </td>
+                <td>
+                    <form action="/books/delete" method="post">
+                        <input type="hidden" name="number" value="<c:out value="${book.id}"/>">
+                        <a class="secondary-content" style="margin-right:20px;" onclick="parentNode.submit();">
+                            <i class="material-icons">clear</i>
+                        </a>
+                    </form>
+                </td>
+            </c:if>
+            <c:if test="${sessionScope.role eq 'consumer'}">
+                <td>
+                    <form action="/books/assign" method="post">
+                        <input type="hidden" name="number" value="<c:out value="${book.id}"/>">
+                        <a class="secondary-content" onclick="parentNode.submit();">
+                            <i class="material-icons">bookmark</i>
+                        </a>
+                    </form>
+                </td>
+            </c:if>
         </tr>
     </c:forEach>
     </tbody>
 
 </table>
-<div class="row col s6 offset-s4 right-align">
-    <a href="/books/add" class="right btn-floating btn-large waves-effect waves-light blue lighten-2 ">
-        <i class="material-icons">add</i></a>
-</div>
+<c:if test="${sessionScope.role eq 'librarian'}">
+    <div class="row col s6 offset-s4 right-align">
+        <a href="/books/add" class="right btn-floating btn-large waves-effect waves-light blue lighten-2 ">
+            <i class="material-icons">add</i></a>
+    </div>
+</c:if>
+
 <jsp:include page="../footer.jsp"/>

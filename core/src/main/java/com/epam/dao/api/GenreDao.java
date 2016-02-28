@@ -16,4 +16,5 @@ public interface GenreDao {
     Genre findById(int id) throws DaoException;
     Genre findByName(String name) throws DaoException;
     List<Genre> findAll() throws DaoException;
+    List<Genre> searchByName(String name) throws DaoException;
 }

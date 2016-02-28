@@ -19,6 +19,8 @@ public class AuthorDaoImpl extends ConnectionManager implements AuthorDao {
     private static final String FIND_BY_ID = "SELECT * FROM Author WHERE id = ?";
     private static final String FIND_BY_ALIAS = "SELECT * FROM Author WHERE alias = ?";
     private static final String FIND_ALL = "SELECT * FROM Author";
+    private static final String SEARCH_BY_NAME = "SELECT * FROM Author WHERE alias LIKE ?;";
+    private static final String FIND_ALL_BY_OFFSET = "SELECT * FROM Author LIMIT ?,7;";
 
     public void create(Author author) throws DaoException {
         try {
@@ -97,6 +99,49 @@ public class AuthorDaoImpl extends ConnectionManager implements AuthorDao {
             connect();
             Object[] params = {};
             resultSet = executeQuery(FIND_ALL,params);
+            while (resultSet.next()){
+                int i = 1;
+                Author author = new Author();
+                author.setId(resultSet.getInt(i++));
+                author.setAlias(resultSet.getString(i));
+                authors.add(author);
+            }
+            close();
+        } catch (SQLException e) {
+            throw new DaoException("Unknown sql exception",e);
+        }
+        return authors;
+    }
+
+    @Override
+    public List<Author> searchByName(String name) throws DaoException {
+        List<Author> authors = new ArrayList<Author>();
+        try {
+            connect();
+            String wildcards = "%" + name + "%";
+            Object[] params = {wildcards};
+            resultSet = executeQuery(SEARCH_BY_NAME,params);
+            while (resultSet.next()){
+                int i = 1;
+                Author author = new Author();
+                author.setId(resultSet.getInt(i++));
+                author.setAlias(resultSet.getString(i));
+                authors.add(author);
+            }
+            close();
+        } catch (SQLException e) {
+            throw new DaoException("Unknown sql exception",e);
+        }
+        return authors;
+    }
+
+    @Override
+    public List<Author> findAllByOffset(int page) throws DaoException {
+        List<Author> authors = new ArrayList<Author>();
+        try {
+            connect();
+            Object[] params = {page*7};
+            resultSet = executeQuery(FIND_ALL_BY_OFFSET,params);
             while (resultSet.next()){
                 int i = 1;
                 Author author = new Author();

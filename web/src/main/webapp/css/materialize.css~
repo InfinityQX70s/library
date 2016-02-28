@@ -9824,7 +9824,7 @@ select {
 .side-nav.fixed a {
   display: block;
   padding: 0 15px;
-  color: #424242;
+  color: #616161;
 }
 
 .side-nav.fixed {

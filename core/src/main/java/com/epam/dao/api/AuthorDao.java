@@ -16,4 +16,6 @@ public interface AuthorDao {
     Author findByAlias(String alisa) throws DaoException;
     Author findById(int id) throws DaoException;
     List<Author> findAll() throws DaoException;
+    List<Author> searchByName(String name) throws DaoException;
+    List<Author> findAllByOffset(int page) throws DaoException;
 }

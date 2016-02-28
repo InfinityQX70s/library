@@ -87,4 +87,13 @@ public class AuthorServiceImpl extends TransactionManager implements AuthorServi
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
+
+    @Override
+    public List<Author> findAllByOffset(int page) throws ServiceException {
+        try {
+            return authorDao.findAllByOffset(page);
+        } catch (DaoException e) {
+            throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
+        }
+    }
 }

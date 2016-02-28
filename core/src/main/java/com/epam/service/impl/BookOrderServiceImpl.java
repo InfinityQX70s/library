@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by infinity on 23.02.16.
  */
-public class BookOrderServiceImpl extends TransactionManager implements BookOrderService{
+public class BookOrderServiceImpl extends TransactionManager implements BookOrderService {
 
     private BookDao bookDao;
     private BookOrderDao bookOrderDao;
@@ -49,8 +49,7 @@ public class BookOrderServiceImpl extends TransactionManager implements BookOrde
                 bookOrderDao.create(bookOrder);
                 book.setCount(book.getCount() - 1);
                 bookDao.update(book);
-            }
-            else if (book == null)
+            } else if (book == null)
                 throw new ServiceException("Book not found", ServiceStatusCode.NOT_FOUND);
             else if (user == null)
                 throw new ServiceException("User not found", ServiceStatusCode.NOT_FOUND);
@@ -67,25 +66,43 @@ public class BookOrderServiceImpl extends TransactionManager implements BookOrde
         try {
             BookOrder bookOrder = bookOrderDao.findById(idBookOrder);
             Status status = statusDao.findByName(statusName);
-            if (bookOrder != null && status != null && status.getId()!=bookOrder.getStatusId()) {
+            if (bookOrder != null && status != null && status.getId() != bookOrder.getStatusId()) {
                 bookOrder.setStatusId(status.getId());
                 bookOrderDao.update(bookOrder);
-                if (STATUS_CLOSE.equals(statusName)){
+                if (STATUS_CLOSE.equals(statusName)) {
                     bookOrderDao.delete(bookOrder.getId());
                     Book book = bookDao.findById(bookOrder.getBookId());
-                    if (book != null){
-                        book.setCount(book.getCount()+1);
+                    if (book != null) {
+                        book.setCount(book.getCount() + 1);
                         bookDao.update(book);
-                    }else
+                    } else
                         throw new ServiceException("Book not found", ServiceStatusCode.NOT_FOUND);
                 }
-            }
-            else if (bookOrder == null)
+            } else if (bookOrder == null)
                 throw new ServiceException("BookOrder not found", ServiceStatusCode.NOT_FOUND);
             else if (status == null)
                 throw new ServiceException("Status not found", ServiceStatusCode.NOT_FOUND);
-            else if (status.getId()==bookOrder.getStatusId())
+            else if (status.getId() == bookOrder.getStatusId())
                 throw new ServiceException("BookOrder already has this status", ServiceStatusCode.NOT_FOUND);
+        } catch (DaoException e) {
+            throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
+        }
+    }
+
+    @Override
+    public void deleteBookOrder(int idBookOrder) throws ServiceException {
+        try {
+            BookOrder bookOrder = bookOrderDao.findById(idBookOrder);
+            if (bookOrder != null) {
+                bookOrderDao.delete(bookOrder.getId());
+                Book book = bookDao.findById(bookOrder.getBookId());
+                if (book != null) {
+                    book.setCount(book.getCount() + 1);
+                    bookDao.update(book);
+                } else
+                    throw new ServiceException("Book not found", ServiceStatusCode.NOT_FOUND);
+            } else if (bookOrder == null)
+                throw new ServiceException("BookOrder not found", ServiceStatusCode.NOT_FOUND);
         } catch (DaoException e) {
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }

@@ -17,7 +17,7 @@
     <jsp:param name="order" value=""/>
 </jsp:include>
 <p></p>
-<table style="margin-top:50px;" class="bordered centered z-depth-2 col s6 offset-s4">
+<table style="margin-top:30px;" class="bordered centered z-depth-2 col s6 offset-s4">
     <thead>
     <tr>
         <th data-field="id">Number</th>
@@ -55,5 +55,12 @@
 <div class="row col s6 offset-s4 right-align">
     <a href="/authors/add" class="right btn-floating btn-large waves-effect waves-light blue lighten-2 ">
         <i class="material-icons">add</i></a>
+</div>
+<div class="row col s6 offset-s4 center-align">
+    <ul class="pagination text-white">
+        <c:forEach begin="1" end="${pageCount}" varStatus="loop">
+            <li class="waves-effect light-blue"><a href="/authors?page=<c:out value="${loop.index}"/>"><c:out value="${loop.index}"/></a></li>
+        </c:forEach>
+    </ul>
 </div>
 <jsp:include page="../footer.jsp"/>

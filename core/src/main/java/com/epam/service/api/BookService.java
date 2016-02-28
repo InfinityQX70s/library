@@ -18,4 +18,5 @@ public interface BookService {
     List<Book> findBookByGenre(String genreName) throws ServiceException;
     List<Book> findBookByAuthor(String alias) throws ServiceException;
     List<Book> findAllBooks() throws ServiceException;
+    List<Book> searchByName(String name) throws ServiceException;
 }

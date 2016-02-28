@@ -56,8 +56,18 @@ public class AuthorController implements BaseController {
     // /authors GET
     private void showAuthor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            List<Author> authors = authorService.findAllAuthors();
+            List<Author> utilElem = authorService.findAllAuthors();
+            int pageCount = (int) Math.ceil(utilElem.size()/7.0);
+            String page = request.getParameter("page");
+            List<Author> authors;
+            if (page == null){
+                 authors = authorService.findAllByOffset(0);
+            }else{
+                authors = authorService.findAllByOffset(Integer.parseInt(page)-1);
+            }
+
             request.setAttribute("authors", authors);
+            request.setAttribute("pageCount", pageCount);
             request.getRequestDispatcher("/WEB-INF/pages/author/author.jsp").forward(request, response);
         } catch (ServiceException e) {
             request.setAttribute("error", e);
@@ -109,7 +119,7 @@ public class AuthorController implements BaseController {
     private void deleteAuthor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String number = request.getParameter("number");
-            validator.validateGenreAndAuthorNumber(number);
+            validator.validateGenreAuthorAndrOrderNumber(number);
             authorService.deleteAuthor(Integer.parseInt(number));
             response.sendRedirect("/authors");
         } catch (ServiceException | ControllerException e) {
@@ -121,7 +131,7 @@ public class AuthorController implements BaseController {
     // /authors/{}/edit GET
     private void showFormForChangeAuthor(HttpServletRequest request, HttpServletResponse response, String number) throws ServletException, IOException {
         try {
-            validator.validateGenreAndAuthorNumber(number);
+            validator.validateGenreAuthorAndrOrderNumber(number);
             Author author = authorService.findAuthorById(Integer.parseInt(number));
             request.setAttribute("author", author);
             request.getRequestDispatcher("/WEB-INF/pages/author/authorEdit.jsp").forward(request, response);

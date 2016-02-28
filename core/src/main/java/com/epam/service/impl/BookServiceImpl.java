@@ -14,6 +14,7 @@ import com.epam.service.api.exception.ServiceException;
 import com.epam.service.api.exception.ServiceStatusCode;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -113,11 +114,12 @@ public class BookServiceImpl extends TransactionManager implements BookService{
 
     public List<Book> findBookByGenre(String genreName) throws ServiceException {
         try {
-            Genre genre = genreDao.findByName(genreName);
-            if (genre != null)
-                return bookDao.findByGenre(genre.getId());
-            else
-                throw new ServiceException("Genre not found", ServiceStatusCode.NOT_FOUND);
+            List<Book> books = new ArrayList<>();
+            List<Genre> genres = genreDao.searchByName(genreName);
+            for (Genre genre : genres){
+                books.addAll(bookDao.findByGenre(genre.getId()));
+            }
+            return books;
         } catch (DaoException e) {
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
@@ -125,11 +127,13 @@ public class BookServiceImpl extends TransactionManager implements BookService{
 
     public List<Book> findBookByAuthor(String alias) throws ServiceException {
         try {
-            Author author = authorDao.findByAlias(alias);
-            if (author != null)
-                return bookDao.findByGenre(author.getId());
-            else
-                throw new ServiceException("Author not found", ServiceStatusCode.NOT_FOUND);
+
+            List<Book> books = new ArrayList<>();
+            List<Author> authors = authorDao.searchByName(alias);
+            for (Author author : authors){
+                books.addAll(bookDao.findByGenre(author.getId()));
+            }
+            return books;
         } catch (DaoException e) {
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
@@ -138,6 +142,15 @@ public class BookServiceImpl extends TransactionManager implements BookService{
     public List<Book> findAllBooks() throws ServiceException {
         try {
             return bookDao.findAll();
+        } catch (DaoException e) {
+            throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
+        }
+    }
+
+    @Override
+    public List<Book> searchByName(String name) throws ServiceException {
+        try {
+            return bookDao.searchByName(name);
         } catch (DaoException e) {
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }

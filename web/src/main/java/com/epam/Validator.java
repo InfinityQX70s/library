@@ -12,11 +12,11 @@ public class Validator {
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-    public void validateGenreAndAuthorNumber(String number) throws ControllerException {
+    public void validateGenreAuthorAndrOrderNumber(String number) throws ControllerException {
         try {
             Integer.parseInt(number);
         }catch (NumberFormatException e){
-            throw new ControllerException("Author or Genre number format exception", ControllerStatusCode.VALIDATE);
+            throw new ControllerException("Author, Genre or Order number format exception", ControllerStatusCode.VALIDATE);
         }
     }
 
@@ -44,7 +44,7 @@ public class Validator {
     public void validateGenreAndAuthor(String number, String alias) throws ControllerException {
         if (alias.isEmpty())
             throw new ControllerException("Author or Genre field is empty", ControllerStatusCode.VALIDATE);
-        validateGenreAndAuthorNumber(number);
+        validateGenreAuthorAndrOrderNumber(number);
     }
 
     public void validateBook(String number, String name, String year, String count) throws ControllerException{

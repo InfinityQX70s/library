@@ -25,7 +25,7 @@ public class BookOrderController implements BaseController {
     private AppContext appContext = AppContext.getInstance();
     private BookService bookService = appContext.getBookService();
     private UserService userService = appContext.getUserService();
-    private StatusService statusService  = appContext.getStatusService();
+    private StatusService statusService = appContext.getStatusService();
     private BookOrderService bookOrderService = appContext.getBookOrderService();
     private Validator validator = appContext.getValidator();
 
@@ -35,16 +35,14 @@ public class BookOrderController implements BaseController {
             if (request.getMethod().equals("GET")) {
                 if (uri.length == 3 && uri[2].equals("orders"))
                     showOrder(request, response);
-                else if (uri.length == 4 && uri[3].equals("add"))
-                    showFormForOrderAdd(request, response);
                 else if (uri.length == 5 && uri[4].equals("edit"))
                     showFormForChangeOrder(request, response, uri[3]);
                 else
                     throw new ControllerException("Page not found", ControllerStatusCode.PAGE_NOT_FOUND);
             }
             if (request.getMethod().equals("POST")) {
-                if (uri.length == 4 && uri[3].equals("add"))
-                    addOrder(request, response);
+                if (uri.length == 4 && uri[3].equals("delete"))
+                    deleteOrder(request, response);
                 else if (uri.length == 4 && uri[3].equals("change"))
                     changeOrder(request, response);
                 else
@@ -56,16 +54,40 @@ public class BookOrderController implements BaseController {
         }
     }
 
+    private void deleteOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            String role = (String) request.getSession().getAttribute("role");
+            if (role.equals("consumer")) {
+                String number = request.getParameter("number");
+                validator.validateGenreAuthorAndrOrderNumber(number);
+                bookOrderService.deleteBookOrder(Integer.parseInt(number));
+                response.sendRedirect("/orders");
+            }else
+                throw new ControllerException("Access denied", ControllerStatusCode.ACCESS_DENIED);
+        } catch (ServiceException | ControllerException e) {
+            request.setAttribute("error", e);
+            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+        }
+
+    }
+
     private void showOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            List<BookOrder> bookOrders = bookOrderService.findAllBookOrders();
-            Map<Integer,User> mapUser = new HashMap<>();
-            Map<Integer,Status> mapStatus = new HashMap<>();
-            Map<Integer,Book> mapBook = new HashMap<>();
-            for (BookOrder bookOrder : bookOrders){
-                mapUser.put(bookOrder.getUserId(),userService.findUserById(bookOrder.getUserId()));
-                mapStatus.put(bookOrder.getStatusId(),statusService.findById(bookOrder.getStatusId()));
-                mapBook.put(bookOrder.getBookId(),bookService.findBookById(bookOrder.getBookId()));
+            String role = (String) request.getSession().getAttribute("role");
+            List<BookOrder> bookOrders;
+            if (role.equals("consumer")) {
+                User user = (User) request.getSession().getAttribute("entity");
+                bookOrders = bookOrderService.findOrdersByUser(user.getEmail());
+            }else{
+                bookOrders = bookOrderService.findAllBookOrders();
+            }
+            Map<Integer, User> mapUser = new HashMap<>();
+            Map<Integer, Status> mapStatus = new HashMap<>();
+            Map<Integer, Book> mapBook = new HashMap<>();
+            for (BookOrder bookOrder : bookOrders) {
+                mapUser.put(bookOrder.getUserId(), userService.findUserById(bookOrder.getUserId()));
+                mapStatus.put(bookOrder.getStatusId(), statusService.findById(bookOrder.getStatusId()));
+                mapBook.put(bookOrder.getBookId(), bookService.findBookById(bookOrder.getBookId()));
             }
             request.setAttribute("mapUser", mapUser);
             request.setAttribute("mapStatus", mapStatus);
@@ -76,14 +98,6 @@ public class BookOrderController implements BaseController {
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
-    }
-
-    private void showFormForOrderAdd(HttpServletRequest request, HttpServletResponse response){
-
-    }
-
-    private void addOrder(HttpServletRequest request, HttpServletResponse response){
-
     }
 
     private void showFormForChangeOrder(HttpServletRequest request, HttpServletResponse response, String number) throws ServletException, IOException {
@@ -109,7 +123,7 @@ public class BookOrderController implements BaseController {
             String number = request.getParameter("number");
             String status = request.getParameter("status");
             validator.validateOrderNumber(number);
-            bookOrderService.setStatusBookOrder(Integer.parseInt(number),status);
+            bookOrderService.setStatusBookOrder(Integer.parseInt(number), status);
             response.sendRedirect("/orders");
         } catch (ServiceException | ControllerException e) {
             request.setAttribute("error", e);
