@@ -34,6 +34,7 @@ public class AppContext {
     private GenreController genreController;
     private LoginController loginController;
     private RegisterController registerController;
+    private LocalizationController localizationController;
 
     private ControllerFactory controllerFactory;
 
@@ -188,6 +189,12 @@ public class AppContext {
             registerController = new RegisterController();
         }
         return registerController;
+    }
+
+    public synchronized LocalizationController getLocalizationController() {
+        if (localizationController ==null)
+            localizationController = new LocalizationController();
+        return localizationController;
     }
 
     public synchronized Validator getValidator() {

@@ -16,6 +16,7 @@ public class ControllerFactory {
     private LoginController loginController = appContext.getLoginController();
     private ErrorController errorController = appContext.getErrorController();
     private RegisterController registerController = appContext.getRegisterController();
+    private LocalizationController localizationController = appContext.getLocalizationController();
 
     public BaseController getControllerByUri(String uri) {
         if (uri.startsWith("/library/author"))
@@ -28,6 +29,8 @@ public class ControllerFactory {
             return loginController;
         else if (uri.startsWith("/library/registrat"))
             return registerController;
+        else if (uri.startsWith("/library/loc"))
+            return localizationController;
         else if (uri.startsWith("/library/order"))
             return bookOrderController;
         return errorController;

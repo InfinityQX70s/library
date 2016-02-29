@@ -1,7 +1,12 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setBundle basename="locale" />
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Registration</title>
+    <title><fmt:message key="REGISTRATION"/></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <!--Import Google Icon Font-->
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
@@ -15,29 +20,29 @@
             <div class="row" style="margin-top: 30px">
                 <div class="input-field col s12">
                     <input id="email" name="email" type="email" class="validate">
-                    <label for="email">Email</label>
+                    <label for="email"><fmt:message key="EMAIL"/></label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
                     <input id="password" type="password" name="password" class="validate">
-                    <label for="password">Password</label>
+                    <label for="password"><fmt:message key="PASSWORD"/></label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
                     <input id="firstName" name="firstName" type="text" class="validate">
-                    <label for="firstName">First Name</label>
+                    <label for="firstName"><fmt:message key="FIRSTNAME"/></label>
                 </div>
             </div>
             <div class="row" >
                 <div class="input-field col s12">
                     <input id="lastName" name="lastName" type="text" class="validate">
-                    <label for="lastName">Last Name</label>
+                    <label for="lastName"><fmt:message key="LASTNAME"/></label>
                 </div>
             </div>
             <div class="row center-align">
-                <button class="btn waves-effect waves-light" type="submit" name="action">Register
+                <button class="btn waves-effect waves-light" type="submit" name="action"><fmt:message key="REGISTER"/>
                     <i class="material-icons right">send</i>
                 </button>
             </div>

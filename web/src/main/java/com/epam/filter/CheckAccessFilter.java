@@ -18,6 +18,7 @@ public class CheckAccessFilter implements Filter {
     private static final String rootPath = "/library/";
     private static final String regExpLog = "/library/log.*";
     private static final String regExpReg = "/library/reg.*";
+    private static final String regExpLoc = "/library/loc.*";
     private static String regConsom = "/library/(books|orders).*";
     private static String regLibra = "/library/(books|orders|authors|genres).*";
 
@@ -39,7 +40,7 @@ public class CheckAccessFilter implements Filter {
             resp.sendRedirect("/login");
         else if ((path.matches(regLibra) && role.equals(librarianRole))
                 || (path.matches(regConsom) && role.equals(consumerRole))
-                || path.matches(regExpLog) || path.matches(regExpReg))
+                || path.matches(regExpLog) || path.matches(regExpReg)|| path.matches(regExpLoc))
             chain.doFilter(request, response);
         else
             try {

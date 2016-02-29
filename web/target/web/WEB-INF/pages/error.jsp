@@ -1,8 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setBundle basename="locale" />
 <html>
 <head>
-    <title>Error</title>
+    <title><fmt:message key="ERROR"/></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="/css/materialize.css" media="screen,projection"/>

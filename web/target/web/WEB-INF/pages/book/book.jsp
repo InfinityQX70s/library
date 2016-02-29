@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setBundle basename="locale" />
 <jsp:include page="../header.jsp">
     <jsp:param name="title" value="Book"/>
 </jsp:include>
@@ -13,18 +16,18 @@
     <form method="post" action="/books/search">
         <div class="input-field col s5">
             <input id="value" name="value" type="text" class="validate">
-            <label for="value">Search Value</label>
+            <label for="value"><fmt:message key="SEARCHVALUE"/></label>
         </div>
         <div class="input-field col s2">
             <select name="type">
-                <option value="name">Name</option>
-                <option value="genre">Genre</option>
-                <option value="author">Author</option>
+                <option value="name"><fmt:message key="NAME"/></option>
+                <option value="genre"><fmt:message key="GENRE"/></option>
+                <option value="author"><fmt:message key="AUTHOR"/></option>
             </select>
-            <label>Search Type</label>
+            <label><fmt:message key="SEARCHTYPE"/></label>
         </div>
         <div class="col s1">
-            <button class="btn waves-effect waves-light" type="submit" name="action" style="margin-top:20px;">Search
+            <button class="btn waves-effect waves-light" type="submit" name="action" style="margin-top:20px;"><fmt:message key="SEARCH"/>
             </button>
         </div>
     </form>
@@ -33,12 +36,12 @@
 <table class="bordered centered z-depth-2 col s6 offset-s4">
     <thead>
     <tr>
-        <th data-field="id">Number</th>
-        <th data-field="name">Name</th>
-        <th data-field="year">Year</th>
-        <th data-field="count">Count</th>
-        <th data-field="genre">Genre</th>
-        <th data-field="author">Author</th>
+        <th data-field="id"><fmt:message key="NUMBER"/></th>
+        <th data-field="name"><fmt:message key="NAME"/></th>
+        <th data-field="year"><fmt:message key="YEAR"/></th>
+        <th data-field="count"><fmt:message key="COUNT"/></th>
+        <th data-field="genre"><fmt:message key="GENRE"/></th>
+        <th data-field="author"><fmt:message key="AUTHOR"/></th>
         <c:if test="${sessionScope.role eq 'librarian'}">
             <th data-field="change"></th>
             <th data-field="delete"></th>

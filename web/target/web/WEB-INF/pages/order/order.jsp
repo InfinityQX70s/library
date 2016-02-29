@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setBundle basename="locale" />
 <jsp:include page="../header.jsp">
     <jsp:param name="title" value="Order"/>
 </jsp:include>
@@ -13,9 +16,9 @@
 <table style="margin-top:50px;" class="bordered centered z-depth-2 col s6 offset-s4">
     <thead>
     <tr>
-        <th data-field="name">Book</th>
-        <th data-field="user">User</th>
-        <th data-field="status">Status</th>
+        <th data-field="name"><fmt:message key="BOOK"/></th>
+        <th data-field="user"><fmt:message key="USER"/></th>
+        <th data-field="status"><fmt:message key="STATUS"/></th>
         <th data-field="change"></th>
     </tr>
     </thead>

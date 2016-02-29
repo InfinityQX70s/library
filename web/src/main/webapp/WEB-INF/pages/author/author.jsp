@@ -1,12 +1,9 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: infinity
-  Date: 23.02.16
-  Time: 19:03
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setBundle basename="locale" />
 <jsp:include page="../header.jsp">
     <jsp:param name="title" value="Author"/>
 </jsp:include>
@@ -20,8 +17,8 @@
 <table style="margin-top:30px;" class="bordered centered z-depth-2 col s6 offset-s4">
     <thead>
     <tr>
-        <th data-field="id">Number</th>
-        <th data-field="alias">Alias</th>
+        <th data-field="id"><fmt:message key="NUMBER"/></th>
+        <th data-field="alias"><fmt:message key="ALIAS"/></th>
         <th data-field="change"></th>
         <th data-field="delete"></th>
     </tr>
