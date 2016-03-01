@@ -7,6 +7,7 @@ import com.epam.controller.exception.ControllerStatusCode;
 import com.epam.entity.Author;
 import com.epam.service.api.AuthorService;
 import com.epam.service.api.exception.ServiceException;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -19,6 +20,8 @@ import java.util.List;
  * Created by infinity on 23.02.16.
  */
 public class AuthorController implements BaseController {
+
+    private static final Logger LOG = Logger.getLogger(AuthorController.class);
 
     private AppContext appContext = AppContext.getInstance();
     private AuthorService authorService = appContext.getAuthorService();
@@ -48,6 +51,7 @@ public class AuthorController implements BaseController {
                     throw new ControllerException("Page not found", ControllerStatusCode.PAGE_NOT_FOUND);
             }
         } catch (ControllerException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
@@ -70,6 +74,7 @@ public class AuthorController implements BaseController {
             request.setAttribute("pageCount", pageCount);
             request.getRequestDispatcher("/WEB-INF/pages/author/author.jsp").forward(request, response);
         } catch (ServiceException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
@@ -92,6 +97,7 @@ public class AuthorController implements BaseController {
             authorService.addAuthor(author);
             response.sendRedirect("/authors");
         } catch (ServiceException | ControllerException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
@@ -109,6 +115,7 @@ public class AuthorController implements BaseController {
             authorService.updateAuthor(author);
             response.sendRedirect("/authors");
         } catch (ServiceException | ControllerException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
@@ -123,6 +130,7 @@ public class AuthorController implements BaseController {
             authorService.deleteAuthor(Integer.parseInt(number));
             response.sendRedirect("/authors");
         } catch (ServiceException | ControllerException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
@@ -136,6 +144,7 @@ public class AuthorController implements BaseController {
             request.setAttribute("author", author);
             request.getRequestDispatcher("/WEB-INF/pages/author/authorEdit.jsp").forward(request, response);
         } catch (ServiceException | ControllerException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }

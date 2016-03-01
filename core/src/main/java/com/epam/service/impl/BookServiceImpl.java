@@ -12,6 +12,7 @@ import com.epam.entity.Genre;
 import com.epam.service.api.BookService;
 import com.epam.service.api.exception.ServiceException;
 import com.epam.service.api.exception.ServiceStatusCode;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ import java.util.List;
  * Created by infinity on 23.02.16.
  */
 public class BookServiceImpl extends TransactionManager implements BookService{
+
+    private static final Logger LOG = Logger.getLogger(BookServiceImpl.class);
 
     private BookDao bookDao;
     private GenreDao genreDao;
@@ -51,6 +54,7 @@ public class BookServiceImpl extends TransactionManager implements BookService{
             else if (genre == null)
                 throw new ServiceException("Genre not found", ServiceStatusCode.NOT_FOUND);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -72,6 +76,7 @@ public class BookServiceImpl extends TransactionManager implements BookService{
             if (genre == null)
                 throw new ServiceException("Genre not found", ServiceStatusCode.NOT_FOUND);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -88,6 +93,7 @@ public class BookServiceImpl extends TransactionManager implements BookService{
             if (!bookOrders.isEmpty())
                 throw new ServiceException("Book assign with orders", ServiceStatusCode.ASSIGNED);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -100,6 +106,7 @@ public class BookServiceImpl extends TransactionManager implements BookService{
             else
                 throw new ServiceException("Book not found", ServiceStatusCode.NOT_FOUND);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -108,6 +115,7 @@ public class BookServiceImpl extends TransactionManager implements BookService{
         try {
             return bookDao.findByName(name);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -121,6 +129,7 @@ public class BookServiceImpl extends TransactionManager implements BookService{
             }
             return books;
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -135,6 +144,7 @@ public class BookServiceImpl extends TransactionManager implements BookService{
             }
             return books;
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -143,6 +153,7 @@ public class BookServiceImpl extends TransactionManager implements BookService{
         try {
             return bookDao.findAll();
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -152,6 +163,7 @@ public class BookServiceImpl extends TransactionManager implements BookService{
         try {
             return bookDao.searchByName(name);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -161,6 +173,7 @@ public class BookServiceImpl extends TransactionManager implements BookService{
         try {
             return bookDao.findAllByOffset(page);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }

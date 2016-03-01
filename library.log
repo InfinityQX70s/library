@@ -1,0 +1,4 @@
+12:11:14,767 WARN  http-nio-8080-exec-6 LoginController:loginUser:77 - Wrong email or pass
+12:11:21,075 WARN  http-nio-8080-exec-8 LoginController:loginUser:77 - Wrong email or pass
+12:12:02,057 WARN  http-nio-8080-exec-8 RegisterController:registerUser:73 - Password field is empty
+12:12:09,596 WARN  http-nio-8080-exec-8 RegisterController:registerUser:73 - User with such identifier exist

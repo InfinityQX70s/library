@@ -6,6 +6,7 @@ import com.epam.entity.User;
 import com.epam.service.api.UserService;
 import com.epam.service.api.exception.ServiceException;
 import com.epam.service.api.exception.ServiceStatusCode;
+import org.apache.log4j.Logger;
 
 import javax.jws.soap.SOAPBinding;
 
@@ -13,6 +14,8 @@ import javax.jws.soap.SOAPBinding;
  * Created by infinity on 23.02.16.
  */
 public class UserServiceImpl extends TransactionManager implements UserService{
+
+    private static final Logger LOG = Logger.getLogger(UserServiceImpl.class);
 
     private UserDao userDao;
 
@@ -28,6 +31,7 @@ public class UserServiceImpl extends TransactionManager implements UserService{
             }else
                 throw new ServiceException("User with such identifier exist", ServiceStatusCode.ALREADY_EXIST);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -40,6 +44,7 @@ public class UserServiceImpl extends TransactionManager implements UserService{
             }else
                 throw new ServiceException("User not found", ServiceStatusCode.NOT_FOUND);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -52,6 +57,7 @@ public class UserServiceImpl extends TransactionManager implements UserService{
             }else
                 throw new ServiceException("User not found", ServiceStatusCode.NOT_FOUND);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }

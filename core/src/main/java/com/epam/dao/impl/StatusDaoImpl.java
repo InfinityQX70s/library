@@ -3,6 +3,7 @@ package com.epam.dao.impl;
 import com.epam.dao.api.StatusDao;
 import com.epam.dao.api.exception.DaoException;
 import com.epam.entity.Status;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ import java.util.List;
  * Created by infinity on 19.02.16.
  */
 public class StatusDaoImpl extends ConnectionManager implements StatusDao {
+
+    private static final Logger LOG = Logger.getLogger(StatusDaoImpl.class);
 
     private static final String FIND_BY_ID = "SELECT * FROM Status WHERE id = ?";
     private static final String FIND_BY_NAME = "SELECT * FROM Status WHERE name = ?";
@@ -31,6 +34,7 @@ public class StatusDaoImpl extends ConnectionManager implements StatusDao {
             }
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
         return status;
@@ -50,6 +54,7 @@ public class StatusDaoImpl extends ConnectionManager implements StatusDao {
             }
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
         return status;
@@ -70,6 +75,7 @@ public class StatusDaoImpl extends ConnectionManager implements StatusDao {
             }
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
         return statuses;

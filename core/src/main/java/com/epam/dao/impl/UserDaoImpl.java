@@ -3,6 +3,7 @@ package com.epam.dao.impl;
 import com.epam.dao.api.UserDao;
 import com.epam.dao.api.exception.DaoException;
 import com.epam.entity.User;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 
@@ -10,6 +11,8 @@ import java.sql.SQLException;
  * Created by infinity on 19.02.16.
  */
 public class UserDaoImpl extends ConnectionManager implements UserDao {
+
+    private static final Logger LOG = Logger.getLogger(UserDaoImpl.class);
 
     private static final String CREATE = "INSERT INTO User (email, password, firstName, lastName, isLibrarian) VALUES(?,?,?,?,?)";
     private static final String UPDATE = "UPDATE User SET email = ?, password = ?, firstName = ?, lastName = ?, isLibrarian = ? WHERE id = ?";
@@ -25,6 +28,7 @@ public class UserDaoImpl extends ConnectionManager implements UserDao {
             execute(CREATE, params);
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
     }
@@ -36,6 +40,7 @@ public class UserDaoImpl extends ConnectionManager implements UserDao {
             execute(UPDATE, params);
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
     }
@@ -47,75 +52,67 @@ public class UserDaoImpl extends ConnectionManager implements UserDao {
             execute(DELETE, params);
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
     }
 
     public User findById(int id) throws DaoException {
-        User user = null;
+        User user;
         try {
             connect();
             Object[] params = {id};
             resultSet = executeQuery(FIND_BY_ID, params);
-            while (resultSet.next()) {
-                int i = 1;
-                user = new User();
-                user.setId(resultSet.getInt(i++));
-                user.setEmail(resultSet.getString(i++));
-                user.setPassword(resultSet.getString(i++));
-                user.setFirstName(resultSet.getString(i++));
-                user.setLastName(resultSet.getString(i++));
-                user.setLibrarian(resultSet.getBoolean(i));
-            }
+            user = getResultSet();
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
         return user;
     }
 
     public User findByFirstNameAndLastName(String firstName, String lastName) throws DaoException {
-        User user = null;
+        User user;
         try {
             connect();
             Object[] params = {firstName, lastName};
             resultSet = executeQuery(FIND_BY_FIRST_NAME_AND_LAST_NAME, params);
-            while (resultSet.next()) {
-                int i = 1;
-                user = new User();
-                user.setId(resultSet.getInt(i++));
-                user.setEmail(resultSet.getString(i++));
-                user.setPassword(resultSet.getString(i++));
-                user.setFirstName(resultSet.getString(i++));
-                user.setLastName(resultSet.getString(i++));
-                user.setLibrarian(resultSet.getBoolean(i));
-            }
+            user = getResultSet();
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
         return user;
     }
 
     public User findByEmail(String email) throws DaoException {
-        User user = null;
+        User user;
         try {
             connect();
             Object[] params = {email};
             resultSet = executeQuery(FIND_EMAIL, params);
-            while (resultSet.next()) {
-                int i = 1;
-                user = new User();
-                user.setId(resultSet.getInt(i++));
-                user.setEmail(resultSet.getString(i++));
-                user.setPassword(resultSet.getString(i++));
-                user.setFirstName(resultSet.getString(i++));
-                user.setLastName(resultSet.getString(i++));
-                user.setLibrarian(resultSet.getBoolean(i));
-            }
+            user = getResultSet();
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
+        }
+        return user;
+    }
+
+    private User getResultSet() throws SQLException {
+        User user = null;
+        while (resultSet.next()) {
+            int i = 1;
+            user = new User();
+            user.setId(resultSet.getInt(i++));
+            user.setEmail(resultSet.getString(i++));
+            user.setPassword(resultSet.getString(i++));
+            user.setFirstName(resultSet.getString(i++));
+            user.setLastName(resultSet.getString(i++));
+            user.setLibrarian(resultSet.getBoolean(i));
         }
         return user;
     }

@@ -3,6 +3,7 @@ package com.epam.dao.impl;
 import com.epam.dao.api.BookOrderDao;
 import com.epam.dao.api.exception.DaoException;
 import com.epam.entity.BookOrder;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ import java.util.List;
  * Created by infinity on 22.02.16.
  */
 public class BookOrderDaoImpl extends ConnectionManager implements BookOrderDao{
+
+    private static final Logger LOG = Logger.getLogger(BookOrderDaoImpl.class);
 
     private static final String CREATE = "INSERT INTO BookOrder (userId, bookId, statusId) VALUES(?,?,?)";
     private static final String UPDATE = "UPDATE BookOrder SET userId=?, bookId=?, statusId=? WHERE id = ?";
@@ -29,6 +32,7 @@ public class BookOrderDaoImpl extends ConnectionManager implements BookOrderDao{
             execute(CREATE,params);
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
     }
@@ -40,6 +44,7 @@ public class BookOrderDaoImpl extends ConnectionManager implements BookOrderDao{
             execute(UPDATE,params);
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
     }
@@ -51,6 +56,7 @@ public class BookOrderDaoImpl extends ConnectionManager implements BookOrderDao{
             execute(DELETE,params);
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
     }
@@ -71,95 +77,82 @@ public class BookOrderDaoImpl extends ConnectionManager implements BookOrderDao{
             }
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
         return bookOrder;
     }
 
     public List<BookOrder> findByUser(int userId) throws DaoException {
-        List<BookOrder> bookOrders = new ArrayList<BookOrder>();
+        List<BookOrder> bookOrders;
         try {
             connect();
             Object[] params = {userId};
             resultSet = executeQuery(FIND_BY_USER,params);
-            while (resultSet.next()){
-                int i = 1;
-                BookOrder bookOrder = new BookOrder();
-                bookOrder.setId(resultSet.getInt(i++));
-                bookOrder.setUserId(resultSet.getInt(i++));
-                bookOrder.setBookId(resultSet.getInt(i++));
-                bookOrder.setStatusId(resultSet.getInt(i));
-                bookOrders.add(bookOrder);
-            }
+            bookOrders = getResultSetList();
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
         return bookOrders;
     }
 
     public List<BookOrder> findByBook(int bookId) throws DaoException {
-        List<BookOrder> bookOrders = new ArrayList<BookOrder>();
+        List<BookOrder> bookOrders;
         try {
             connect();
             Object[] params = {bookId};
             resultSet = executeQuery(FIND_BY_BOOK,params);
-            while (resultSet.next()){
-                int i = 1;
-                BookOrder bookOrder = new BookOrder();
-                bookOrder.setId(resultSet.getInt(i++));
-                bookOrder.setUserId(resultSet.getInt(i++));
-                bookOrder.setBookId(resultSet.getInt(i++));
-                bookOrder.setStatusId(resultSet.getInt(i));
-                bookOrders.add(bookOrder);
-            }
+            bookOrders = getResultSetList();
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
         return bookOrders;
     }
 
     public List<BookOrder> findByStatus(int statusId) throws DaoException {
-        List<BookOrder> bookOrders = new ArrayList<BookOrder>();
+        List<BookOrder> bookOrders;
         try {
             connect();
             Object[] params = {statusId};
             resultSet = executeQuery(FIND_BY_STATUS,params);
-            while (resultSet.next()){
-                int i = 1;
-                BookOrder bookOrder = new BookOrder();
-                bookOrder.setId(resultSet.getInt(i++));
-                bookOrder.setUserId(resultSet.getInt(i++));
-                bookOrder.setBookId(resultSet.getInt(i++));
-                bookOrder.setStatusId(resultSet.getInt(i));
-                bookOrders.add(bookOrder);
-            }
+            bookOrders = getResultSetList();
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
         return bookOrders;
     }
 
     public List<BookOrder> findAll() throws DaoException {
-        List<BookOrder> bookOrders = new ArrayList<BookOrder>();
+        List<BookOrder> bookOrders;
         try {
             connect();
             Object[] params = {};
             resultSet = executeQuery(FIND_ALL,params);
-            while (resultSet.next()){
-                int i = 1;
-                BookOrder bookOrder = new BookOrder();
-                bookOrder.setId(resultSet.getInt(i++));
-                bookOrder.setUserId(resultSet.getInt(i++));
-                bookOrder.setBookId(resultSet.getInt(i++));
-                bookOrder.setStatusId(resultSet.getInt(i));
-                bookOrders.add(bookOrder);
-            }
+            bookOrders = getResultSetList();
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
+        }
+        return bookOrders;
+    }
+
+    private List<BookOrder> getResultSetList() throws SQLException {
+        List<BookOrder> bookOrders = new ArrayList<BookOrder>();
+        while (resultSet.next()){
+            int i = 1;
+            BookOrder bookOrder = new BookOrder();
+            bookOrder.setId(resultSet.getInt(i++));
+            bookOrder.setUserId(resultSet.getInt(i++));
+            bookOrder.setBookId(resultSet.getInt(i++));
+            bookOrder.setStatusId(resultSet.getInt(i));
+            bookOrders.add(bookOrder);
         }
         return bookOrders;
     }

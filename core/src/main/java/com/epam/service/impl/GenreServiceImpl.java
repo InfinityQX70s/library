@@ -8,6 +8,7 @@ import com.epam.entity.Genre;
 import com.epam.service.api.GenreService;
 import com.epam.service.api.exception.ServiceException;
 import com.epam.service.api.exception.ServiceStatusCode;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
@@ -15,6 +16,8 @@ import java.util.List;
  * Created by infinity on 23.02.16.
  */
 public class GenreServiceImpl extends TransactionManager implements GenreService{
+
+    private static final Logger LOG = Logger.getLogger(GenreServiceImpl.class);
 
     private GenreDao genreDao;
     private BookDao bookDao;
@@ -33,6 +36,7 @@ public class GenreServiceImpl extends TransactionManager implements GenreService
                 throw new ServiceException("Genre with such identifier exist", ServiceStatusCode.ALREADY_EXIST);
             }
         }catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -46,6 +50,7 @@ public class GenreServiceImpl extends TransactionManager implements GenreService
                 throw new ServiceException("Genre not found", ServiceStatusCode.NOT_FOUND);
             }
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -64,6 +69,7 @@ public class GenreServiceImpl extends TransactionManager implements GenreService
                 throw new ServiceException("Genre assign with books", ServiceStatusCode.ASSIGNED);
             }
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -76,6 +82,7 @@ public class GenreServiceImpl extends TransactionManager implements GenreService
             else
                 throw new ServiceException("Genre not found", ServiceStatusCode.NOT_FOUND);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -84,6 +91,7 @@ public class GenreServiceImpl extends TransactionManager implements GenreService
         try {
             return genreDao.findAll();
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -93,6 +101,7 @@ public class GenreServiceImpl extends TransactionManager implements GenreService
         try {
             return genreDao.findAllByOffset(page);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }

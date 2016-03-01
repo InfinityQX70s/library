@@ -8,6 +8,7 @@ import com.epam.entity.Book;
 import com.epam.service.api.AuthorService;
 import com.epam.service.api.exception.ServiceException;
 import com.epam.service.api.exception.ServiceStatusCode;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
@@ -15,6 +16,8 @@ import java.util.List;
  * Created by infinity on 23.02.16.
  */
 public class AuthorServiceImpl extends TransactionManager implements AuthorService{
+
+    private static final Logger LOG = Logger.getLogger(AuthorServiceImpl.class);
 
     private AuthorDao authorDao;
     private BookDao bookDao;
@@ -33,6 +36,7 @@ public class AuthorServiceImpl extends TransactionManager implements AuthorServi
                 throw new ServiceException("Author with such identifier exist", ServiceStatusCode.ALREADY_EXIST);
             }
         }catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -46,6 +50,7 @@ public class AuthorServiceImpl extends TransactionManager implements AuthorServi
                 throw new ServiceException("Author not found", ServiceStatusCode.NOT_FOUND);
             }
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -64,6 +69,7 @@ public class AuthorServiceImpl extends TransactionManager implements AuthorServi
                 throw new ServiceException("Author assign with books", ServiceStatusCode.ASSIGNED);
             }
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -76,6 +82,7 @@ public class AuthorServiceImpl extends TransactionManager implements AuthorServi
             else
                 throw new ServiceException("Author not found", ServiceStatusCode.NOT_FOUND);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -84,6 +91,7 @@ public class AuthorServiceImpl extends TransactionManager implements AuthorServi
         try {
             return authorDao.findAll();
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -93,6 +101,7 @@ public class AuthorServiceImpl extends TransactionManager implements AuthorServi
         try {
             return authorDao.findAllByOffset(page);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }

@@ -2,6 +2,7 @@ package com.epam.filter;
 
 import com.epam.controller.exception.ControllerException;
 import com.epam.controller.exception.ControllerStatusCode;
+import org.apache.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,8 @@ import java.io.IOException;
  * Created by infinity on 27.02.16.
  */
 public class CheckAccessFilter implements Filter {
+
+    private static final Logger LOG = Logger.getLogger(CheckAccessFilter.class);
 
     private static final String librarianRole = "librarian";
     private static final String consumerRole = "consumer";
@@ -46,6 +49,7 @@ public class CheckAccessFilter implements Filter {
             try {
                 throw new ControllerException("Page not found", ControllerStatusCode.PAGE_NOT_FOUND);
             } catch (ControllerException e) {
+                LOG.warn(e.getMessage());
                 req.setAttribute("error", e);
                 req.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(req, resp);
             }

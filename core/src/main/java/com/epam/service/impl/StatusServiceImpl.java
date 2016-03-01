@@ -6,6 +6,7 @@ import com.epam.entity.Status;
 import com.epam.service.api.StatusService;
 import com.epam.service.api.exception.ServiceException;
 import com.epam.service.api.exception.ServiceStatusCode;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ import java.util.List;
  * Created by infinity on 26.02.16.
  */
 public class StatusServiceImpl extends TransactionManager implements StatusService {
+
+    private static final Logger LOG = Logger.getLogger(StatusServiceImpl.class);
 
     private StatusDao statusDao;
 
@@ -29,6 +32,7 @@ public class StatusServiceImpl extends TransactionManager implements StatusServi
             else
                 throw new ServiceException("Status not found", ServiceStatusCode.NOT_FOUND);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -38,6 +42,7 @@ public class StatusServiceImpl extends TransactionManager implements StatusServi
         try {
             return statusDao.findAll();
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }

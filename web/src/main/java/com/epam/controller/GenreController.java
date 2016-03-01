@@ -8,6 +8,7 @@ import com.epam.entity.Genre;
 import com.epam.service.api.AuthorService;
 import com.epam.service.api.GenreService;
 import com.epam.service.api.exception.ServiceException;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -20,6 +21,8 @@ import java.util.List;
  * Created by infinity on 23.02.16.
  */
 public class GenreController implements BaseController {
+
+    private static final Logger LOG = Logger.getLogger(GenreController.class);
 
     private AppContext appContext = AppContext.getInstance();
     private GenreService genreService = appContext.getGenreService();
@@ -49,6 +52,7 @@ public class GenreController implements BaseController {
                     throw new ControllerException("Page not found", ControllerStatusCode.PAGE_NOT_FOUND);
             }
         } catch (ControllerException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
@@ -69,6 +73,7 @@ public class GenreController implements BaseController {
             request.setAttribute("genres", genres);
             request.getRequestDispatcher("/WEB-INF/pages/genre/genre.jsp").forward(request, response);
         } catch (ServiceException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
@@ -89,6 +94,7 @@ public class GenreController implements BaseController {
             genreService.addGenre(genre);
             response.sendRedirect("/genres");
         } catch (ServiceException | ControllerException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
@@ -101,6 +107,7 @@ public class GenreController implements BaseController {
             genreService.deleteGenre(Integer.parseInt(number));
             response.sendRedirect("/genres");
         } catch (ServiceException | ControllerException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
@@ -113,6 +120,7 @@ public class GenreController implements BaseController {
             request.setAttribute("genre", genre);
             request.getRequestDispatcher("/WEB-INF/pages/genre/genreEdit.jsp").forward(request, response);
         } catch (ServiceException | ControllerException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
@@ -129,6 +137,7 @@ public class GenreController implements BaseController {
             genreService.updateGenre(genre);
             response.sendRedirect("/genres");
         } catch (ServiceException | ControllerException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }

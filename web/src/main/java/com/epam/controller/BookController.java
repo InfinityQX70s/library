@@ -13,6 +13,7 @@ import com.epam.service.api.BookOrderService;
 import com.epam.service.api.BookService;
 import com.epam.service.api.GenreService;
 import com.epam.service.api.exception.ServiceException;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -27,6 +28,8 @@ import java.util.Map;
  * Created by infinity on 23.02.16.
  */
 public class BookController implements BaseController {
+
+    private static final Logger LOG = Logger.getLogger(BookController.class);
 
     private AppContext appContext = AppContext.getInstance();
     private BookService bookService = appContext.getBookService();
@@ -63,6 +66,7 @@ public class BookController implements BaseController {
                     throw new ControllerException("Page not found", ControllerStatusCode.PAGE_NOT_FOUND);
              }
         } catch (ControllerException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
@@ -91,6 +95,7 @@ public class BookController implements BaseController {
             request.setAttribute("books", books);
             request.getRequestDispatcher("/WEB-INF/pages/book/book.jsp").forward(request, response);
         } catch (ServiceException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
@@ -104,6 +109,7 @@ public class BookController implements BaseController {
             request.setAttribute("genre", genre);
             request.getRequestDispatcher("/WEB-INF/pages/book/bookAdd.jsp").forward(request, response);
         } catch (ServiceException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
@@ -117,6 +123,7 @@ public class BookController implements BaseController {
             bookOrderService.createBookOrder(Integer.parseInt(number),user.getEmail());
             response.sendRedirect("/orders");
         } catch (ServiceException | ControllerException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
@@ -149,6 +156,7 @@ public class BookController implements BaseController {
             request.setAttribute("books", books);
             request.getRequestDispatcher("/WEB-INF/pages/book/book.jsp").forward(request, response);
         } catch (ServiceException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
@@ -171,6 +179,7 @@ public class BookController implements BaseController {
             bookService.addBook(book,author,genre);
             response.sendRedirect("/books");
         } catch (ServiceException | ControllerException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
@@ -186,6 +195,7 @@ public class BookController implements BaseController {
             request.setAttribute("book", book);
             request.getRequestDispatcher("/WEB-INF/pages/book/bookEdit.jsp").forward(request, response);
         } catch (ServiceException | ControllerException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
@@ -207,6 +217,7 @@ public class BookController implements BaseController {
             bookService.updateBook(book,author,genre);
             response.sendRedirect("/books");
         } catch (ServiceException | ControllerException e) {
+            LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }
@@ -218,6 +229,7 @@ public class BookController implements BaseController {
             bookService.deleteBook(Integer.parseInt(number));
             response.sendRedirect("/books");
         } catch (ServiceException | ControllerException e) {
+           LOG.warn(e.getMessage());
             request.setAttribute("error", e);
             request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
         }

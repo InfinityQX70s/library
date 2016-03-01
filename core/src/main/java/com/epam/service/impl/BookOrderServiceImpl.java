@@ -13,6 +13,7 @@ import com.epam.service.api.AuthorService;
 import com.epam.service.api.BookOrderService;
 import com.epam.service.api.exception.ServiceException;
 import com.epam.service.api.exception.ServiceStatusCode;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
@@ -20,6 +21,8 @@ import java.util.List;
  * Created by infinity on 23.02.16.
  */
 public class BookOrderServiceImpl extends TransactionManager implements BookOrderService {
+
+    private static final Logger LOG = Logger.getLogger(BookOrderServiceImpl.class);
 
     private BookDao bookDao;
     private BookOrderDao bookOrderDao;
@@ -58,6 +61,7 @@ public class BookOrderServiceImpl extends TransactionManager implements BookOrde
             else if (book.getCount() == 0)
                 throw new ServiceException("Book count too small", ServiceStatusCode.NOT_FOUND);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -85,6 +89,7 @@ public class BookOrderServiceImpl extends TransactionManager implements BookOrde
             else if (status.getId() == bookOrder.getStatusId())
                 throw new ServiceException("BookOrder already has this status", ServiceStatusCode.NOT_FOUND);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -104,6 +109,7 @@ public class BookOrderServiceImpl extends TransactionManager implements BookOrde
             } else if (bookOrder == null)
                 throw new ServiceException("BookOrder not found", ServiceStatusCode.NOT_FOUND);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -116,6 +122,7 @@ public class BookOrderServiceImpl extends TransactionManager implements BookOrde
             else
                 throw new ServiceException("User not found", ServiceStatusCode.NOT_FOUND);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -140,6 +147,7 @@ public class BookOrderServiceImpl extends TransactionManager implements BookOrde
             else
                 throw new ServiceException("Status not found", ServiceStatusCode.NOT_FOUND);
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
         }
     }
@@ -148,6 +156,7 @@ public class BookOrderServiceImpl extends TransactionManager implements BookOrde
         try {
             return bookOrderDao.findAll();
         } catch (DaoException e) {
+            LOG.warn(e.getMessage());
             throw new ServiceException("User not found", ServiceStatusCode.NOT_FOUND);
         }
     }

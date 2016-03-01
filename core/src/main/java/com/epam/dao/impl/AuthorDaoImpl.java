@@ -3,6 +3,7 @@ package com.epam.dao.impl;
 import com.epam.dao.api.AuthorDao;
 import com.epam.dao.api.exception.DaoException;
 import com.epam.entity.Author;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ import java.util.List;
  * Created by infinity on 19.02.16.
  */
 public class AuthorDaoImpl extends ConnectionManager implements AuthorDao {
+
+    private static final Logger LOG = Logger.getLogger(AuthorDaoImpl.class);
 
     private static final String CREATE = "INSERT INTO Author (id, alias) VALUES(?,?)";
     private static final String UPDATE = "UPDATE Author SET alias = ? WHERE id = ?";
@@ -29,6 +32,7 @@ public class AuthorDaoImpl extends ConnectionManager implements AuthorDao {
             execute(CREATE,params);
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
     }
@@ -40,6 +44,7 @@ public class AuthorDaoImpl extends ConnectionManager implements AuthorDao {
             execute(UPDATE,params);
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
     }
@@ -51,6 +56,7 @@ public class AuthorDaoImpl extends ConnectionManager implements AuthorDao {
             execute(DELETE,params);
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
     }
@@ -61,14 +67,10 @@ public class AuthorDaoImpl extends ConnectionManager implements AuthorDao {
             connect();
             Object[] params = {alias};
             resultSet = executeQuery(FIND_BY_ALIAS,params);
-            while (resultSet.next()){
-                int i = 1;
-                author = new Author();
-                author.setId(resultSet.getInt(i++));
-                author.setAlias(resultSet.getString(i));
-            }
+            author = getResultSet();
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
         return author;
@@ -80,34 +82,25 @@ public class AuthorDaoImpl extends ConnectionManager implements AuthorDao {
             connect();
             Object[] params = {id};
             resultSet = executeQuery(FIND_BY_ID,params);
-            while (resultSet.next()){
-                int i = 1;
-                author = new Author();
-                author.setId(resultSet.getInt(i++));
-                author.setAlias(resultSet.getString(i));
-            }
+            author = getResultSet();
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
         return author;
     }
 
     public List<Author> findAll() throws DaoException {
-        List<Author> authors = new ArrayList<Author>();
+        List<Author> authors;
         try {
             connect();
             Object[] params = {};
             resultSet = executeQuery(FIND_ALL,params);
-            while (resultSet.next()){
-                int i = 1;
-                Author author = new Author();
-                author.setId(resultSet.getInt(i++));
-                author.setAlias(resultSet.getString(i));
-                authors.add(author);
-            }
+            authors = getResultSetList();
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
         return authors;
@@ -115,21 +108,16 @@ public class AuthorDaoImpl extends ConnectionManager implements AuthorDao {
 
     @Override
     public List<Author> searchByName(String name) throws DaoException {
-        List<Author> authors = new ArrayList<Author>();
+        List<Author> authors;
         try {
             connect();
             String wildcards = "%" + name + "%";
             Object[] params = {wildcards};
             resultSet = executeQuery(SEARCH_BY_NAME,params);
-            while (resultSet.next()){
-                int i = 1;
-                Author author = new Author();
-                author.setId(resultSet.getInt(i++));
-                author.setAlias(resultSet.getString(i));
-                authors.add(author);
-            }
+            authors = getResultSetList();
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
         }
         return authors;
@@ -137,21 +125,39 @@ public class AuthorDaoImpl extends ConnectionManager implements AuthorDao {
 
     @Override
     public List<Author> findAllByOffset(int page) throws DaoException {
-        List<Author> authors = new ArrayList<Author>();
+        List<Author> authors;
         try {
             connect();
             Object[] params = {page*7};
             resultSet = executeQuery(FIND_ALL_BY_OFFSET,params);
-            while (resultSet.next()){
-                int i = 1;
-                Author author = new Author();
-                author.setId(resultSet.getInt(i++));
-                author.setAlias(resultSet.getString(i));
-                authors.add(author);
-            }
+            authors = getResultSetList();
             close();
         } catch (SQLException e) {
+            LOG.warn(e.getMessage());
             throw new DaoException("Unknown sql exception",e);
+        }
+        return authors;
+    }
+
+    private Author getResultSet() throws SQLException {
+        Author author = null;
+        while (resultSet.next()){
+            int i = 1;
+            author = new Author();
+            author.setId(resultSet.getInt(i++));
+            author.setAlias(resultSet.getString(i));
+        }
+        return author;
+    }
+
+    private List<Author> getResultSetList() throws SQLException {
+        List<Author> authors = new ArrayList<Author>();
+        while (resultSet.next()){
+            int i = 1;
+            Author author = new Author();
+            author.setId(resultSet.getInt(i++));
+            author.setAlias(resultSet.getString(i));
+            authors.add(author);
         }
         return authors;
     }
