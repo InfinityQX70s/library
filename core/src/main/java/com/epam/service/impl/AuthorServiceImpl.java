@@ -62,10 +62,10 @@ public class AuthorServiceImpl extends TransactionManager implements AuthorServi
             if (author != null && books.isEmpty()){
                 authorDao.delete(id);
             }
-            if (author == null) {
+            else if (author == null) {
                 throw new ServiceException("Author not found", ServiceStatusCode.NOT_FOUND);
             }
-            if (!books.isEmpty()){
+            else if (!books.isEmpty()){
                 throw new ServiceException("Author assign with books", ServiceStatusCode.ASSIGNED);
             }
         } catch (DaoException e) {

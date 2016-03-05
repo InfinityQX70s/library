@@ -58,14 +58,14 @@ public class GenreServiceImpl extends TransactionManager implements GenreService
     public void deleteGenre(int id) throws ServiceException {
         try {
             Genre genre = genreDao.findById(id);
-            List<Book> books = bookDao.findByAuthor(id);
+            List<Book> books = bookDao.findByGenre(id);
             if (genre != null && books.isEmpty()){
                 genreDao.delete(id);
             }
-            if (genre == null) {
+            else if (genre == null) {
                 throw new ServiceException("Genre not found", ServiceStatusCode.NOT_FOUND);
             }
-            if (!books.isEmpty()){
+            else if (!books.isEmpty()){
                 throw new ServiceException("Genre assign with books", ServiceStatusCode.ASSIGNED);
             }
         } catch (DaoException e) {

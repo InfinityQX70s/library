@@ -69,11 +69,11 @@ public class BookServiceImpl extends TransactionManager implements BookService{
                 book.setGenreId(genre.getId());
                 bookDao.update(book);
             }
-            if (element == null)
+            else if (element == null)
                 throw new ServiceException("Book not found", ServiceStatusCode.NOT_FOUND);
-            if (author == null)
+            else if (author == null)
                 throw new ServiceException("Author not found", ServiceStatusCode.NOT_FOUND);
-            if (genre == null)
+            else if (genre == null)
                 throw new ServiceException("Genre not found", ServiceStatusCode.NOT_FOUND);
         } catch (DaoException e) {
             LOG.warn(e.getMessage());
@@ -88,9 +88,9 @@ public class BookServiceImpl extends TransactionManager implements BookService{
             if (book != null && bookOrders.isEmpty()){
                 bookDao.delete(id);
             }
-            if (book == null)
+            else if (book == null)
                 throw new ServiceException("Book not found", ServiceStatusCode.NOT_FOUND);
-            if (!bookOrders.isEmpty())
+            else if (!bookOrders.isEmpty())
                 throw new ServiceException("Book assign with orders", ServiceStatusCode.ASSIGNED);
         } catch (DaoException e) {
             LOG.warn(e.getMessage());
@@ -136,7 +136,6 @@ public class BookServiceImpl extends TransactionManager implements BookService{
 
     public List<Book> findBookByAuthor(String alias) throws ServiceException {
         try {
-
             List<Book> books = new ArrayList<>();
             List<Author> authors = authorDao.searchByName(alias);
             for (Author author : authors){
