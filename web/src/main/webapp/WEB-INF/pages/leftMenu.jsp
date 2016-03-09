@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="/WEB-INF/locale.tld" prefix="t"%>
 <fmt:setLocale value="${sessionScope.locale}" />
 <fmt:setBundle basename="locale" />
 <body>
@@ -28,18 +29,7 @@
             <form action="/localization" method="POST">
                 <div class="input-field col s4 center" style="margin-left:15px;">
                     <select name="locale" onchange="this.form.submit()">
-                        <c:if test="${sessionScope.locale eq 'ru'}">
-                            <option value="ru">Русский</option>
-                            <option value="en">English</option>
-                        </c:if>
-                        <c:if test="${sessionScope.locale eq null}">
-                            <option value="en">English</option>
-                            <option value="ru">Русский</option>
-                        </c:if>
-                        <c:if test="${sessionScope.locale eq 'en'}">
-                            <option value="en">English</option>
-                            <option value="ru">Русский</option>
-                        </c:if>
+                        <t:locale locale="${sessionScope.locale}" en="English" ru="Русский"/>
                     </select>
                 </div>
             </form>

@@ -1,0 +1,10 @@
+*~
+/.idea
+/target
+.gitignore~
+.Trash-*
+library.iml
+/core/target
+/web/target
+/core/core.iml
+/web/web.iml

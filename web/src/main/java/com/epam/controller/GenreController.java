@@ -65,10 +65,12 @@ public class GenreController implements BaseController {
             String page = request.getParameter("page");
             List<Genre> genres;
             if (page == null){
+                page = "1";
                 genres = genreService.findAllByOffset(0);
             }else{
                 genres = genreService.findAllByOffset(Integer.parseInt(page)-1);
             }
+            request.setAttribute("currentPage", page);
             request.setAttribute("pageCount", pageCount);
             request.setAttribute("genres", genres);
             request.getRequestDispatcher("/WEB-INF/pages/genre/genre.jsp").forward(request, response);

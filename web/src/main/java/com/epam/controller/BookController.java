@@ -79,6 +79,7 @@ public class BookController implements BaseController {
             String page = request.getParameter("page");
             List<Book> books;
             if (page == null){
+                page = "1";
                 books = bookService.findAllByOffset(0);
             }else{
                 books = bookService.findAllByOffset(Integer.parseInt(page)-1);
@@ -89,6 +90,7 @@ public class BookController implements BaseController {
                 mapGenres.put(book.getGenreId(),genreService.findGenreById(book.getGenreId()));
                 mapAuthor.put(book.getAuthorId(),authorService.findAuthorById(book.getAuthorId()));
             }
+            request.setAttribute("currentPage", page);
             request.setAttribute("pageCount", pageCount);
             request.setAttribute("mapAuthor", mapAuthor);
             request.setAttribute("mapGenres", mapGenres);
@@ -188,8 +190,12 @@ public class BookController implements BaseController {
         try {
             validator.validateBookNumber(number);
             Book book = bookService.findBookById(Integer.parseInt(number));
+            Author currentAuthor = authorService.findAuthorById(book.getAuthorId());
+            Genre currentGenre = genreService.findGenreById(book.getGenreId());
             List<Author> author = authorService.findAllAuthors();
             List<Genre> genre = genreService.findAllGenres();
+            request.setAttribute("currentAuthor", currentAuthor);
+            request.setAttribute("currentGenre", currentGenre);
             request.setAttribute("author", author);
             request.setAttribute("genre", genre);
             request.setAttribute("book", book);

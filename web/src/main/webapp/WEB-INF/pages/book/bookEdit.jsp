@@ -40,16 +40,22 @@
         <div class="row">
             <div class="input-field col s6">
                 <select name="genre">
+                    <option value="<c:out value="${currentGenre.name}"/>"><c:out value="${currentGenre.name}"/></option>
                     <c:forEach var="genres" items="${genre}">
-                        <option value="<c:out value="${genres.name}"/>"><c:out value="${genres.name}"/></option>
+                        <c:if test="${genres.name ne currentGenre.name}">
+                            <option value="<c:out value="${genres.name}"/>"><c:out value="${genres.name}"/></option>
+                        </c:if>
                     </c:forEach>
                 </select>
                 <label><fmt:message key="GENRE"/></label>
             </div>
             <div class="input-field col s6">
                 <select name="author">
+                    <option value="<c:out value="${currentAuthor.alias}"/>"><c:out value="${currentAuthor.alias}"/></option>
                     <c:forEach var="authors" items="${author}">
-                        <option value="<c:out value="${authors.alias}"/>"><c:out value="${authors.alias}"/></option>
+                        <c:if test="${authors.alias ne currentAuthor.alias}">
+                            <option value="<c:out value="${authors.alias}"/>"><c:out value="${authors.alias}"/></option>
+                        </c:if>
                     </c:forEach>
                 </select>
                 <label><fmt:message key="AUTHOR"/></label>

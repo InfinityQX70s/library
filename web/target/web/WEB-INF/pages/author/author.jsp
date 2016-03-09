@@ -55,9 +55,14 @@
 </div>
 <c:if test="${requestScope.pageCount ne 1}">
 <div class="row col s6 offset-s4 center-align">
-    <ul class="pagination text-white">
+    <ul class="pagination">
             <c:forEach begin="1" end="${requestScope.pageCount}" varStatus="loop">
-                <li class="waves-effect light-blue"><a href="/authors?page=<c:out value="${loop.index}"/>"><c:out value="${loop.index}"/></a></li>
+                <c:if test="${requestScope.currentPage eq loop.index}">
+                    <li class="active light-blue accent-1"><a href="/authors?page=<c:out value="${loop.index}"/>"><c:out value="${loop.index}"/></a></li>
+                </c:if>
+                <c:if test="${requestScope.currentPage ne loop.index}">
+                    <li class="waves-effect light-blue accent-1"><a href="/authors?page=<c:out value="${loop.index}"/>"><c:out value="${loop.index}"/></a></li>
+                </c:if>
             </c:forEach>
     </ul>
 </div>

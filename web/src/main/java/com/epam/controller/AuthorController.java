@@ -65,11 +65,12 @@ public class AuthorController implements BaseController {
             String page = request.getParameter("page");
             List<Author> authors;
             if (page == null){
-                 authors = authorService.findAllByOffset(0);
+                page = "1";
+                authors = authorService.findAllByOffset(0);
             }else{
                 authors = authorService.findAllByOffset(Integer.parseInt(page)-1);
             }
-
+            request.setAttribute("currentPage", page);
             request.setAttribute("authors", authors);
             request.setAttribute("pageCount", pageCount);
             request.getRequestDispatcher("/WEB-INF/pages/author/author.jsp").forward(request, response);
