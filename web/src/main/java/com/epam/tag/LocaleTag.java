@@ -26,6 +26,11 @@ public class LocaleTag extends TagSupport implements DynamicAttributes{
         map.put(param,(String) value);
     }
 
+    /**Тэг осуществляет динамическое отображение формы локализации в зависоимости от текущей
+     * и от списка локализаций поддерживаемых проектом, передаются динамически как параметры
+     * @return
+     * @throws JspException
+     */
     @Override
     public int doStartTag() throws JspException {
         try {

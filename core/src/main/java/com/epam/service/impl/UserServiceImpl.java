@@ -29,7 +29,7 @@ public class UserServiceImpl extends TransactionManager implements UserService{
             if (element == null){
                 userDao.create(user);
             }else
-                throw new ServiceException("User with such identifier exist", ServiceStatusCode.ALREADY_EXIST);
+                throw new ServiceException("User with such identifier exist", ServiceStatusCode.USER_ALREADY_EXIST);
         } catch (DaoException e) {
             LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
@@ -42,7 +42,7 @@ public class UserServiceImpl extends TransactionManager implements UserService{
             if (user != null){
                 return user;
             }else
-                throw new ServiceException("User not found", ServiceStatusCode.NOT_FOUND);
+                throw new ServiceException("User not found", ServiceStatusCode.USER_NOT_FOUND);
         } catch (DaoException e) {
             LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
@@ -55,7 +55,7 @@ public class UserServiceImpl extends TransactionManager implements UserService{
             if (user != null){
                 return user;
             }else
-                throw new ServiceException("User not found", ServiceStatusCode.NOT_FOUND);
+                throw new ServiceException("User not found", ServiceStatusCode.USER_NOT_FOUND);
         } catch (DaoException e) {
             LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);

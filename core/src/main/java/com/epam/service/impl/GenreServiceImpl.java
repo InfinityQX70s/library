@@ -33,7 +33,7 @@ public class GenreServiceImpl extends TransactionManager implements GenreService
             if (element == null){
                 genreDao.create(genre);
             }else {
-                throw new ServiceException("Genre with such identifier exist", ServiceStatusCode.ALREADY_EXIST);
+                throw new ServiceException("Genre with such identifier exist", ServiceStatusCode.GENRE_ALREADY_EXIST);
             }
         }catch (DaoException e) {
             LOG.warn(e.getMessage());
@@ -47,7 +47,7 @@ public class GenreServiceImpl extends TransactionManager implements GenreService
             if (element != null){
                 genreDao.update(genre);
             }else {
-                throw new ServiceException("Genre not found", ServiceStatusCode.NOT_FOUND);
+                throw new ServiceException("Genre not found", ServiceStatusCode.GENRE_NOT_FOUND);
             }
         } catch (DaoException e) {
             LOG.warn(e.getMessage());
@@ -63,10 +63,10 @@ public class GenreServiceImpl extends TransactionManager implements GenreService
                 genreDao.delete(id);
             }
             else if (genre == null) {
-                throw new ServiceException("Genre not found", ServiceStatusCode.NOT_FOUND);
+                throw new ServiceException("Genre not found", ServiceStatusCode.GENRE_NOT_FOUND);
             }
             else if (!books.isEmpty()){
-                throw new ServiceException("Genre assign with books", ServiceStatusCode.ASSIGNED);
+                throw new ServiceException("Genre assign with books", ServiceStatusCode.GENRE_ASSIGNED);
             }
         } catch (DaoException e) {
             LOG.warn(e.getMessage());
@@ -80,7 +80,7 @@ public class GenreServiceImpl extends TransactionManager implements GenreService
             if (genre != null)
                 return genre;
             else
-                throw new ServiceException("Genre not found", ServiceStatusCode.NOT_FOUND);
+                throw new ServiceException("Genre not found", ServiceStatusCode.GENRE_NOT_FOUND);
         } catch (DaoException e) {
             LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);

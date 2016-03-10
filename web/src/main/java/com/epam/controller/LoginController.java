@@ -16,17 +16,23 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Properties;
 
 /**
  * Created by infinity on 23.02.16.
  */
-public class LoginController implements BaseController {
+public class LoginController extends BaseController {
 
     private static final Logger LOG = Logger.getLogger(LoginController.class);
 
-    private AppContext appContext = AppContext.getInstance();
-    private UserService userService = appContext.getUserService();
-    private Validator validator = appContext.getValidator();
+    private UserService userService;
+    private Validator validator;
+
+    public LoginController(Properties errorProperties, UserService userService, Validator validator) {
+        super(errorProperties);
+        this.userService = userService;
+        this.validator = validator;
+    }
 
     public void execute(ServletContext servletContext, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
@@ -47,8 +53,7 @@ public class LoginController implements BaseController {
             }
         } catch (ControllerException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
         }
     }
 
@@ -56,6 +61,12 @@ public class LoginController implements BaseController {
         req.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(req, resp);
     }
 
+    /**Осуществляем логин пользователя и устанавливаем ему ег ороль в сессию
+     * @param req
+     * @param resp
+     * @throws IOException
+     * @throws ServletException
+     */
     // /login POST
     private void loginUser(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         try {
@@ -73,10 +84,12 @@ public class LoginController implements BaseController {
             } else {
                 throw new ControllerException("Wrong email or pass", ControllerStatusCode.WRONG_EMAIL_PASS);
             }
-        } catch (ServiceException | ControllerException e) {
+        } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            req.setAttribute("error", e);
-            req.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(req, resp);
+            showError(e,req,resp);
+        }catch (ControllerException e) {
+            LOG.warn(e.getMessage());
+            showError(e,req,resp);
         }
     }
 

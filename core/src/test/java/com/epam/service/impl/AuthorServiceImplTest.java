@@ -56,7 +56,7 @@ public class AuthorServiceImplTest {
             Mockito.when(authorDao.findById(20)).thenReturn(author);
             authorService.addAuthor(author);
         } catch (ServiceException e) {
-            Assert.assertEquals(ServiceStatusCode.ALREADY_EXIST,e.getStatusCode());
+            Assert.assertEquals(ServiceStatusCode.AUTHOR_ALREADY_EXIST,e.getStatusCode());
         }
     }
 
@@ -75,7 +75,7 @@ public class AuthorServiceImplTest {
             Mockito.when(authorDao.findById(20)).thenReturn(null);
             authorService.updateAuthor(author);
         } catch (ServiceException e) {
-            Assert.assertEquals(ServiceStatusCode.NOT_FOUND,e.getStatusCode());
+            Assert.assertEquals(ServiceStatusCode.AUTHOR_NOT_FOUND,e.getStatusCode());
         }
     }
 
@@ -95,7 +95,7 @@ public class AuthorServiceImplTest {
             Mockito.when(bookDao.findByAuthor(20)).thenReturn(new ArrayList<Book>());
             authorService.deleteAuthor(20);
         } catch (ServiceException e) {
-            Assert.assertEquals(ServiceStatusCode.NOT_FOUND,e.getStatusCode());
+            Assert.assertEquals(ServiceStatusCode.AUTHOR_NOT_FOUND,e.getStatusCode());
         }
     }
 
@@ -109,7 +109,7 @@ public class AuthorServiceImplTest {
             Mockito.when(bookDao.findByAuthor(20)).thenReturn(books);
             authorService.deleteAuthor(20);
         } catch (ServiceException e) {
-            Assert.assertEquals(ServiceStatusCode.ASSIGNED,e.getStatusCode());
+            Assert.assertEquals(ServiceStatusCode.AUTHOR_ASSIGNED,e.getStatusCode());
         }
     }
 

@@ -15,18 +15,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by infinity on 23.02.16.
  */
-public class AuthorController implements BaseController {
+public class AuthorController extends BaseController {
 
     private static final Logger LOG = Logger.getLogger(AuthorController.class);
 
-    private AppContext appContext = AppContext.getInstance();
-    private AuthorService authorService = appContext.getAuthorService();
-    private Validator validator = appContext.getValidator();
+    private AuthorService authorService;
+    private Validator validator;
 
+    public AuthorController(Properties errorProperties, AuthorService authorService, Validator validator) {
+        super(errorProperties);
+        this.authorService = authorService;
+        this.validator = validator;
+    }
+
+    /**Метод получает запрос разбирает его и определеяет какому из методов отдать его на обработку
+     * @param servletContext
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     public void execute(ServletContext servletContext, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String[] uri = request.getRequestURI().split("/");
@@ -52,11 +65,16 @@ public class AuthorController implements BaseController {
             }
         } catch (ControllerException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
         }
     }
 
+    /**Метод выводит постранично всех авторов
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     // /authors GET
     private void showAuthor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
@@ -76,8 +94,7 @@ public class AuthorController implements BaseController {
             request.getRequestDispatcher("/WEB-INF/pages/author/author.jsp").forward(request, response);
         } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
         }
     }
 
@@ -86,6 +103,12 @@ public class AuthorController implements BaseController {
         request.getRequestDispatcher("/WEB-INF/pages/author/authorAdd.jsp").forward(request, response);
     }
 
+    /** Производит валидацию вводимых данных и создание нового автора в бд
+     * @param request
+     * @param response
+     * @throws IOException
+     * @throws ServletException
+     */
     // /authors/add POST
     private void addAuthor(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
@@ -97,13 +120,21 @@ public class AuthorController implements BaseController {
             author.setAlias(alias);
             authorService.addAuthor(author);
             response.sendRedirect("/authors");
-        } catch (ServiceException | ControllerException e) {
+        } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
+        }catch (ControllerException e) {
+            LOG.warn(e.getMessage());
+            showError(e,request,response);
         }
     }
 
+    /**Изменение автора
+     * @param request
+     * @param response
+     * @throws IOException
+     * @throws ServletException
+     */
     // /authors/change POST
     private void changeAuthor(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
@@ -115,10 +146,12 @@ public class AuthorController implements BaseController {
             author.setAlias(alias);
             authorService.updateAuthor(author);
             response.sendRedirect("/authors");
-        } catch (ServiceException | ControllerException e) {
+        } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
+        }catch (ControllerException e) {
+            LOG.warn(e.getMessage());
+            showError(e,request,response);
         }
 
     }
@@ -130,13 +163,22 @@ public class AuthorController implements BaseController {
             validator.validateGenreAuthorAndrOrderNumber(number);
             authorService.deleteAuthor(Integer.parseInt(number));
             response.sendRedirect("/authors");
-        } catch (ServiceException | ControllerException e) {
+        } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
+        }catch (ControllerException e) {
+            LOG.warn(e.getMessage());
+            showError(e,request,response);
         }
     }
 
+    /**Отображение формы и заполнение ее для изменения автора
+     * @param request
+     * @param response
+     * @param number
+     * @throws ServletException
+     * @throws IOException
+     */
     // /authors/{}/edit GET
     private void showFormForChangeAuthor(HttpServletRequest request, HttpServletResponse response, String number) throws ServletException, IOException {
         try {
@@ -144,10 +186,12 @@ public class AuthorController implements BaseController {
             Author author = authorService.findAuthorById(Integer.parseInt(number));
             request.setAttribute("author", author);
             request.getRequestDispatcher("/WEB-INF/pages/author/authorEdit.jsp").forward(request, response);
-        } catch (ServiceException | ControllerException e) {
+        } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
+        }catch (ControllerException e) {
+            LOG.warn(e.getMessage());
+            showError(e,request,response);
         }
     }
 

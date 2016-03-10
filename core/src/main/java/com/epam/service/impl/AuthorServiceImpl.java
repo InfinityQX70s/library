@@ -33,7 +33,7 @@ public class AuthorServiceImpl extends TransactionManager implements AuthorServi
             if (element == null){
                 authorDao.create(author);
             }else {
-                throw new ServiceException("Author with such identifier exist", ServiceStatusCode.ALREADY_EXIST);
+                throw new ServiceException("Author with such identifier exist", ServiceStatusCode.AUTHOR_ALREADY_EXIST);
             }
         }catch (DaoException e) {
             LOG.warn(e.getMessage());
@@ -47,7 +47,7 @@ public class AuthorServiceImpl extends TransactionManager implements AuthorServi
             if (element != null){
                 authorDao.update(author);
             }else {
-                throw new ServiceException("Author not found", ServiceStatusCode.NOT_FOUND);
+                throw new ServiceException("Author not found", ServiceStatusCode.AUTHOR_NOT_FOUND);
             }
         } catch (DaoException e) {
             LOG.warn(e.getMessage());
@@ -63,10 +63,10 @@ public class AuthorServiceImpl extends TransactionManager implements AuthorServi
                 authorDao.delete(id);
             }
             else if (author == null) {
-                throw new ServiceException("Author not found", ServiceStatusCode.NOT_FOUND);
+                throw new ServiceException("Author not found", ServiceStatusCode.AUTHOR_NOT_FOUND);
             }
             else if (!books.isEmpty()){
-                throw new ServiceException("Author assign with books", ServiceStatusCode.ASSIGNED);
+                throw new ServiceException("Author assign with books", ServiceStatusCode.AUTHOR_ASSIGNED);
             }
         } catch (DaoException e) {
             LOG.warn(e.getMessage());
@@ -80,7 +80,7 @@ public class AuthorServiceImpl extends TransactionManager implements AuthorServi
             if (author != null)
                 return author;
             else
-                throw new ServiceException("Author not found", ServiceStatusCode.NOT_FOUND);
+                throw new ServiceException("Author not found", ServiceStatusCode.AUTHOR_NOT_FOUND);
         } catch (DaoException e) {
             LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);

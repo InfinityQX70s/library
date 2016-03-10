@@ -15,17 +15,23 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Properties;
 
 /**
  * Created by infinity on 27.02.16.
  */
-public class RegisterController implements BaseController{
+public class RegisterController extends BaseController{
 
     private static final Logger LOG = Logger.getLogger(RegisterController.class);
 
-    private AppContext appContext = AppContext.getInstance();
-    private UserService userService = appContext.getUserService();
-    private Validator validator = appContext.getValidator();
+    private UserService userService;
+    private Validator validator;
+
+    public RegisterController(Properties errorProperties, UserService userService, Validator validator) {
+        super(errorProperties);
+        this.userService = userService;
+        this.validator = validator;
+    }
 
     @Override
     public void execute(ServletContext servletContext, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -45,8 +51,7 @@ public class RegisterController implements BaseController{
             }
         } catch (ControllerException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
         }
     }
 
@@ -54,6 +59,12 @@ public class RegisterController implements BaseController{
         request.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(request, response);
     }
 
+    /**Валидируем данные с фармы и осуществляем регистрацию клиентов в бибилотеке
+     * @param request
+     * @param response
+     * @throws IOException
+     * @throws ServletException
+     */
     private void registerUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
             String email = request.getParameter("email");
@@ -69,10 +80,12 @@ public class RegisterController implements BaseController{
             user.setLibrarian(false);
             userService.addUser(user);
             response.sendRedirect("/login");
-        } catch (ServiceException | ControllerException e) {
+        } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
+        }catch (ControllerException e) {
+            LOG.warn(e.getMessage());
+            showError(e,request,response);
         }
     }
 }

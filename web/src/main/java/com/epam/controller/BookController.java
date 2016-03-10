@@ -23,20 +23,31 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Created by infinity on 23.02.16.
  */
-public class BookController implements BaseController {
+public class BookController extends BaseController {
 
     private static final Logger LOG = Logger.getLogger(BookController.class);
 
-    private AppContext appContext = AppContext.getInstance();
-    private BookService bookService = appContext.getBookService();
-    private GenreService genreService = appContext.getGenreService();
-    private AuthorService authorService = appContext.getAuthorService();
-    private BookOrderService bookOrderService = appContext.getBookOrderService();
-    private Validator validator = appContext.getValidator();
+    private BookService bookService;
+    private GenreService genreService;
+    private AuthorService authorService;
+    private BookOrderService bookOrderService;
+    private Validator validator;
+
+    public BookController(Properties errorProperties, BookService bookService,
+                          GenreService genreService, AuthorService authorService,
+                          BookOrderService bookOrderService, Validator validator) {
+        super(errorProperties);
+        this.bookService = bookService;
+        this.genreService = genreService;
+        this.authorService = authorService;
+        this.bookOrderService = bookOrderService;
+        this.validator = validator;
+    }
 
     public void execute(ServletContext servletContext, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
@@ -67,11 +78,16 @@ public class BookController implements BaseController {
              }
         } catch (ControllerException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
         }
     }
 
+    /** Показать список книг постранично
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     private void showBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             List<Book> utilElem = bookService.findAllBooks();
@@ -98,11 +114,16 @@ public class BookController implements BaseController {
             request.getRequestDispatcher("/WEB-INF/pages/book/book.jsp").forward(request, response);
         } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
         }
     }
 
+    /**Показ формы для создания книги с заполнеными с писками авторов и жанров для выбора
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     private void showFormForBookAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             List<Author> author = authorService.findAllAuthors();
@@ -112,8 +133,7 @@ public class BookController implements BaseController {
             request.getRequestDispatcher("/WEB-INF/pages/book/bookAdd.jsp").forward(request, response);
         } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
         }
     }
 
@@ -124,13 +144,21 @@ public class BookController implements BaseController {
             User user = (User) request.getSession().getAttribute("entity");
             bookOrderService.createBookOrder(Integer.parseInt(number),user.getEmail());
             response.sendRedirect("/orders");
-        } catch (ServiceException | ControllerException e) {
+        } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
+        }catch (ControllerException e) {
+            LOG.warn(e.getMessage());
+            showError(e,request,response);
         }
     }
 
+    /**Осуществляем поиск в зависимости от параметра который задан
+     * @param request
+     * @param response
+     * @throws IOException
+     * @throws ServletException
+     */
     private void searchBook(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
             String value = request.getParameter("value");
@@ -159,8 +187,7 @@ public class BookController implements BaseController {
             request.getRequestDispatcher("/WEB-INF/pages/book/book.jsp").forward(request, response);
         } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
         }
     }
 
@@ -180,10 +207,12 @@ public class BookController implements BaseController {
             book.setCount(Integer.parseInt(count));
             bookService.addBook(book,author,genre);
             response.sendRedirect("/books");
-        } catch (ServiceException | ControllerException e) {
+        } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
+        }catch (ControllerException e) {
+            LOG.warn(e.getMessage());
+            showError(e,request,response);
         }
     }
     private void showFormForChangeBook(HttpServletRequest request, HttpServletResponse response, String number) throws ServletException, IOException {
@@ -200,10 +229,12 @@ public class BookController implements BaseController {
             request.setAttribute("genre", genre);
             request.setAttribute("book", book);
             request.getRequestDispatcher("/WEB-INF/pages/book/bookEdit.jsp").forward(request, response);
-        } catch (ServiceException | ControllerException e) {
+        } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
+        }catch (ControllerException e) {
+            LOG.warn(e.getMessage());
+            showError(e,request,response);
         }
     }
     private void changeBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -222,10 +253,12 @@ public class BookController implements BaseController {
             book.setCount(Integer.parseInt(count));
             bookService.updateBook(book,author,genre);
             response.sendRedirect("/books");
-        } catch (ServiceException | ControllerException e) {
+        } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
+        }catch (ControllerException e) {
+            LOG.warn(e.getMessage());
+            showError(e,request,response);
         }
     }
     private void deleteBook(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -234,10 +267,12 @@ public class BookController implements BaseController {
             validator.validateBookNumber(number);
             bookService.deleteBook(Integer.parseInt(number));
             response.sendRedirect("/books");
-        } catch (ServiceException | ControllerException e) {
+       } catch (ServiceException e) {
            LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
-        }
+           showError(e,request,response);
+       }catch (ControllerException e) {
+           LOG.warn(e.getMessage());
+           showError(e,request,response);
+       }
     }
 }

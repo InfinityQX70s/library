@@ -82,7 +82,7 @@ public class BookServiceImplTest {
             Mockito.when(bookDao.findById(30)).thenReturn(getBook());
             bookService.addBook(getBook(),"Булгаков","Ужасы");
         } catch (ServiceException e) {
-            Assert.assertEquals(ServiceStatusCode.ALREADY_EXIST,e.getStatusCode());
+            Assert.assertEquals(ServiceStatusCode.BOOK_ALREADY_EXIST,e.getStatusCode());
         }
     }
 
@@ -94,7 +94,7 @@ public class BookServiceImplTest {
             Mockito.when(bookDao.findById(30)).thenReturn(null);
             bookService.addBook(getBook(),"Булгаков","Ужасы");
         } catch (ServiceException e) {
-            Assert.assertEquals(ServiceStatusCode.NOT_FOUND,e.getStatusCode());
+            Assert.assertEquals(ServiceStatusCode.GENRE_NOT_FOUND,e.getStatusCode());
         }
     }
 
@@ -106,7 +106,7 @@ public class BookServiceImplTest {
             Mockito.when(bookDao.findById(30)).thenReturn(null);
             bookService.addBook(getBook(),"Булгаков","Ужасы");
         } catch (ServiceException e) {
-            Assert.assertEquals(ServiceStatusCode.NOT_FOUND,e.getStatusCode());
+            Assert.assertEquals(ServiceStatusCode.AUTHOR_NOT_FOUND,e.getStatusCode());
         }
     }
 
@@ -132,7 +132,7 @@ public class BookServiceImplTest {
             Mockito.when(bookOrderDao.findByBook(30)).thenReturn(new ArrayList<BookOrder>());
             bookService.deleteBook(30);
         } catch (ServiceException e) {
-            Assert.assertEquals(ServiceStatusCode.NOT_FOUND,e.getStatusCode());
+            Assert.assertEquals(ServiceStatusCode.BOOK_NOT_FOUND,e.getStatusCode());
         }
     }
 
@@ -145,7 +145,7 @@ public class BookServiceImplTest {
             Mockito.when(bookOrderDao.findByBook(30)).thenReturn(bookOrders);
             bookService.deleteBook(30);
         } catch (ServiceException e) {
-            Assert.assertEquals(ServiceStatusCode.ASSIGNED,e.getStatusCode());
+            Assert.assertEquals(ServiceStatusCode.BOOK_ASSIGNED,e.getStatusCode());
         }
     }
 

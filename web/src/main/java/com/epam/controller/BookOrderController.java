@@ -17,20 +17,31 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Created by infinity on 23.02.16.
  */
-public class BookOrderController implements BaseController {
+public class BookOrderController extends BaseController {
 
     private static final Logger LOG = Logger.getLogger(BookOrderController.class);
 
-    private AppContext appContext = AppContext.getInstance();
-    private BookService bookService = appContext.getBookService();
-    private UserService userService = appContext.getUserService();
-    private StatusService statusService = appContext.getStatusService();
-    private BookOrderService bookOrderService = appContext.getBookOrderService();
-    private Validator validator = appContext.getValidator();
+    private BookService bookService;
+    private UserService userService;
+    private StatusService statusService;
+    private BookOrderService bookOrderService;
+    private Validator validator;
+
+    public BookOrderController(Properties errorProperties, BookService bookService,
+                               UserService userService, StatusService statusService,
+                               BookOrderService bookOrderService, Validator validator) {
+        super(errorProperties);
+        this.bookService = bookService;
+        this.userService = userService;
+        this.statusService = statusService;
+        this.bookOrderService = bookOrderService;
+        this.validator = validator;
+    }
 
     public void execute(ServletContext servletContext, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
@@ -53,11 +64,16 @@ public class BookOrderController implements BaseController {
             }
         } catch (ControllerException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
         }
     }
 
+    /**Удаляем заказ, только для клиентов
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     private void deleteOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String role = (String) request.getSession().getAttribute("role");
@@ -68,14 +84,22 @@ public class BookOrderController implements BaseController {
                 response.sendRedirect("/orders");
             }else
                 throw new ControllerException("Access denied", ControllerStatusCode.ACCESS_DENIED);
-        } catch (ServiceException | ControllerException e) {
+        } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
+        }catch (ControllerException e) {
+            LOG.warn(e.getMessage());
+            showError(e,request,response);
         }
 
     }
 
+    /**Показываем заказы, если для клиента то только его, если для библиотекаря, то все
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     private void showOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String role = (String) request.getSession().getAttribute("role");
@@ -101,8 +125,7 @@ public class BookOrderController implements BaseController {
             request.getRequestDispatcher("/WEB-INF/pages/order/order.jsp").forward(request, response);
         } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
         }
     }
 
@@ -112,16 +135,20 @@ public class BookOrderController implements BaseController {
             BookOrder bookOrder = bookOrderService.findOrderById(Integer.parseInt(number));
             User user = userService.findUserById(bookOrder.getUserId());
             Book book = bookService.findBookById(bookOrder.getBookId());
+            Status currentStatus = statusService.findById(bookOrder.getStatusId());
             List<Status> status = statusService.findAll();
             request.setAttribute("bookOrder", bookOrder);
             request.setAttribute("user", user);
             request.setAttribute("book", book);
+            request.setAttribute("currentStatus", currentStatus);
             request.setAttribute("status", status);
             request.getRequestDispatcher("/WEB-INF/pages/order/orderEdit.jsp").forward(request, response);
-        } catch (ServiceException | ControllerException e) {
+        } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
+        }catch (ControllerException e) {
+            LOG.warn(e.getMessage());
+            showError(e,request,response);
         }
     }
 
@@ -132,10 +159,12 @@ public class BookOrderController implements BaseController {
             validator.validateOrderNumber(number);
             bookOrderService.setStatusBookOrder(Integer.parseInt(number), status);
             response.sendRedirect("/orders");
-        } catch (ServiceException | ControllerException e) {
+        } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
+        }catch (ControllerException e) {
+            LOG.warn(e.getMessage());
+            showError(e,request,response);
         }
     }
 }

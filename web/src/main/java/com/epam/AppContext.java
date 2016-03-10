@@ -6,6 +6,10 @@ import com.epam.dao.impl.*;
 import com.epam.service.api.*;
 import com.epam.service.impl.*;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 /**
  * Created by infinity on 23.02.16.
  */
@@ -39,6 +43,8 @@ public class AppContext {
     private ControllerFactory controllerFactory;
 
     private Validator validator;
+
+    private Properties errorProperties;
 
     private AppContext() {
     }
@@ -137,42 +143,44 @@ public class AppContext {
 
     public synchronized AuthorController getAuthorController() {
         if (authorController == null){
-            authorController = new AuthorController();
+            authorController = new AuthorController(getErrorProperties(),getAuthorService(),getValidator());
         }
         return authorController;
     }
 
     public synchronized BookController getBookController() {
         if (bookController == null){
-            bookController = new BookController();
+            bookController = new BookController(getErrorProperties(),getBookService(),getGenreService(),
+                    getAuthorService(),getBookOrderService(),getValidator());
         }
         return bookController;
     }
 
     public synchronized BookOrderController getBookOrderController() {
         if (bookOrderController == null){
-            bookOrderController = new BookOrderController();
+            bookOrderController = new BookOrderController(getErrorProperties(),getBookService(),getUserService(),
+                    getStatusService(),getBookOrderService(),getValidator());
         }
         return bookOrderController;
     }
 
     public synchronized ErrorController getErrorController() {
         if (errorController == null){
-            errorController = new ErrorController();
+            errorController = new ErrorController(getErrorProperties());
         }
         return errorController;
     }
 
     public synchronized GenreController getGenreController() {
         if (genreController == null){
-            genreController = new GenreController();
+            genreController = new GenreController(getErrorProperties(),getGenreService(),getValidator());
         }
         return genreController;
     }
 
     public synchronized LoginController getLoginController() {
         if (loginController == null){
-            loginController = new LoginController();
+            loginController = new LoginController(getErrorProperties(),getUserService(),getValidator());
         }
         return loginController;
     }
@@ -186,14 +194,14 @@ public class AppContext {
 
     public synchronized RegisterController getRegisterController() {
         if (registerController == null){
-            registerController = new RegisterController();
+            registerController = new RegisterController(getErrorProperties(),getUserService(),getValidator());
         }
         return registerController;
     }
 
     public synchronized LocalizationController getLocalizationController() {
         if (localizationController ==null)
-            localizationController = new LocalizationController();
+            localizationController = new LocalizationController(getErrorProperties());
         return localizationController;
     }
 
@@ -202,5 +210,19 @@ public class AppContext {
             validator = new Validator();
         }
         return validator;
+    }
+
+    public synchronized Properties getErrorProperties() {
+        if (errorProperties == null){
+            try {
+                errorProperties = new Properties();
+                InputStream in = getClass().getClassLoader().getResourceAsStream("error.properties");
+                errorProperties.load(in);
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return errorProperties;
     }
 }

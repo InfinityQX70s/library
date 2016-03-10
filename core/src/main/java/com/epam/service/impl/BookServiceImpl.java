@@ -48,11 +48,11 @@ public class BookServiceImpl extends TransactionManager implements BookService{
                 bookDao.create(book);
             }
             else if (element != null)
-                throw new ServiceException("Book with such identifier exist", ServiceStatusCode.ALREADY_EXIST);
+                throw new ServiceException("Book with such identifier exist", ServiceStatusCode.BOOK_ALREADY_EXIST);
             else if (author == null)
-                throw new ServiceException("Author not found", ServiceStatusCode.NOT_FOUND);
+                throw new ServiceException("Author not found", ServiceStatusCode.AUTHOR_NOT_FOUND);
             else if (genre == null)
-                throw new ServiceException("Genre not found", ServiceStatusCode.NOT_FOUND);
+                throw new ServiceException("Genre not found", ServiceStatusCode.GENRE_NOT_FOUND);
         } catch (DaoException e) {
             LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
@@ -70,11 +70,11 @@ public class BookServiceImpl extends TransactionManager implements BookService{
                 bookDao.update(book);
             }
             else if (element == null)
-                throw new ServiceException("Book not found", ServiceStatusCode.NOT_FOUND);
+                throw new ServiceException("Book not found", ServiceStatusCode.BOOK_NOT_FOUND);
             else if (author == null)
-                throw new ServiceException("Author not found", ServiceStatusCode.NOT_FOUND);
+                throw new ServiceException("Author not found", ServiceStatusCode.AUTHOR_NOT_FOUND);
             else if (genre == null)
-                throw new ServiceException("Genre not found", ServiceStatusCode.NOT_FOUND);
+                throw new ServiceException("Genre not found", ServiceStatusCode.GENRE_NOT_FOUND);
         } catch (DaoException e) {
             LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
@@ -89,9 +89,9 @@ public class BookServiceImpl extends TransactionManager implements BookService{
                 bookDao.delete(id);
             }
             else if (book == null)
-                throw new ServiceException("Book not found", ServiceStatusCode.NOT_FOUND);
+                throw new ServiceException("Book not found", ServiceStatusCode.BOOK_NOT_FOUND);
             else if (!bookOrders.isEmpty())
-                throw new ServiceException("Book assign with orders", ServiceStatusCode.ASSIGNED);
+                throw new ServiceException("Book assign with orders", ServiceStatusCode.BOOK_ASSIGNED);
         } catch (DaoException e) {
             LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
@@ -104,7 +104,7 @@ public class BookServiceImpl extends TransactionManager implements BookService{
             if (book != null)
                 return book;
             else
-                throw new ServiceException("Book not found", ServiceStatusCode.NOT_FOUND);
+                throw new ServiceException("Book not found", ServiceStatusCode.BOOK_NOT_FOUND);
         } catch (DaoException e) {
             LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);

@@ -36,8 +36,11 @@
         <div class="row">
             <div class="input-field col s12">
                 <select name="status">
+                    <option value="<c:out value="${currentStatus.name}"/>"><c:out value="${currentStatus.name}"/></option>
                     <c:forEach var="status" items="${status}">
-                        <option value="<c:out value="${status.name}"/>"><c:out value="${status.name}"/></option>
+                        <c:if test="${status.name ne currentStatus.name}">
+                            <option value="<c:out value="${status.name}"/>"><c:out value="${status.name}"/></option>
+                        </c:if>
                     </c:forEach>
                 </select>
                 <label><fmt:message key="STATUS"/></label>

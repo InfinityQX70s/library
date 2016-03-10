@@ -56,7 +56,7 @@ public class GenreServiceImplTest {
             Mockito.when(genreDao.findById(20)).thenReturn(genre);
             genreService.addGenre(genre);
         } catch (ServiceException e) {
-            Assert.assertEquals(ServiceStatusCode.ALREADY_EXIST,e.getStatusCode());
+            Assert.assertEquals(ServiceStatusCode.GENRE_ALREADY_EXIST,e.getStatusCode());
         }
     }
 
@@ -75,7 +75,7 @@ public class GenreServiceImplTest {
             Mockito.when(genreDao.findById(20)).thenReturn(null);
             genreService.updateGenre(genre);
         } catch (ServiceException e) {
-            Assert.assertEquals(ServiceStatusCode.NOT_FOUND,e.getStatusCode());
+            Assert.assertEquals(ServiceStatusCode.GENRE_NOT_FOUND,e.getStatusCode());
         }
     }
 
@@ -95,7 +95,7 @@ public class GenreServiceImplTest {
             Mockito.when(bookDao.findByGenre(20)).thenReturn(new ArrayList<Book>());
             genreService.deleteGenre(20);
         } catch (ServiceException e) {
-            Assert.assertEquals(ServiceStatusCode.NOT_FOUND,e.getStatusCode());
+            Assert.assertEquals(ServiceStatusCode.GENRE_NOT_FOUND,e.getStatusCode());
         }
     }
 
@@ -109,7 +109,7 @@ public class GenreServiceImplTest {
             Mockito.when(bookDao.findByGenre(20)).thenReturn(books);
             genreService.deleteGenre(20);
         } catch (ServiceException e) {
-            Assert.assertEquals(ServiceStatusCode.ASSIGNED,e.getStatusCode());
+            Assert.assertEquals(ServiceStatusCode.GENRE_ASSIGNED,e.getStatusCode());
         }
     }
 

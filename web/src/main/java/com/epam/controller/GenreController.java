@@ -16,17 +16,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by infinity on 23.02.16.
  */
-public class GenreController implements BaseController {
+public class GenreController extends BaseController {
 
     private static final Logger LOG = Logger.getLogger(GenreController.class);
 
-    private AppContext appContext = AppContext.getInstance();
-    private GenreService genreService = appContext.getGenreService();
-    private Validator validator = appContext.getValidator();
+    private GenreService genreService;
+    private Validator validator;
+
+    public GenreController(Properties errorProperties, GenreService genreService, Validator validator) {
+        super(errorProperties);
+        this.genreService = genreService;
+        this.validator = validator;
+    }
 
     public void execute(ServletContext servletContext, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
@@ -53,8 +59,7 @@ public class GenreController implements BaseController {
             }
         } catch (ControllerException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
         }
     }
 
@@ -76,8 +81,7 @@ public class GenreController implements BaseController {
             request.getRequestDispatcher("/WEB-INF/pages/genre/genre.jsp").forward(request, response);
         } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
         }
     }
 
@@ -95,10 +99,12 @@ public class GenreController implements BaseController {
             genre.setName(name);
             genreService.addGenre(genre);
             response.sendRedirect("/genres");
-        } catch (ServiceException | ControllerException e) {
+        } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
+        }catch (ControllerException e) {
+            LOG.warn(e.getMessage());
+            showError(e,request,response);
         }
     }
 
@@ -108,10 +114,12 @@ public class GenreController implements BaseController {
             validator.validateGenreAuthorAndrOrderNumber(number);
             genreService.deleteGenre(Integer.parseInt(number));
             response.sendRedirect("/genres");
-        } catch (ServiceException | ControllerException e) {
+        } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
+        }catch (ControllerException e) {
+            LOG.warn(e.getMessage());
+            showError(e,request,response);
         }
     }
 
@@ -121,10 +129,12 @@ public class GenreController implements BaseController {
             Genre genre = genreService.findGenreById(Integer.parseInt(number));
             request.setAttribute("genre", genre);
             request.getRequestDispatcher("/WEB-INF/pages/genre/genreEdit.jsp").forward(request, response);
-        } catch (ServiceException | ControllerException e) {
+        } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
+        }catch (ControllerException e) {
+            LOG.warn(e.getMessage());
+            showError(e,request,response);
         }
     }
 
@@ -138,10 +148,12 @@ public class GenreController implements BaseController {
             genre.setName(name);
             genreService.updateGenre(genre);
             response.sendRedirect("/genres");
-        } catch (ServiceException | ControllerException e) {
+        } catch (ServiceException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
+        }catch (ControllerException e) {
+            LOG.warn(e.getMessage());
+            showError(e,request,response);
         }
     }
 }

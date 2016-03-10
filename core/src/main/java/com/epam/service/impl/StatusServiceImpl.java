@@ -30,7 +30,7 @@ public class StatusServiceImpl extends TransactionManager implements StatusServi
             if (status != null)
                 return status;
             else
-                throw new ServiceException("Status not found", ServiceStatusCode.NOT_FOUND);
+                throw new ServiceException("Status not found", ServiceStatusCode.STATUS_NOT_FOUND);
         } catch (DaoException e) {
             LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);

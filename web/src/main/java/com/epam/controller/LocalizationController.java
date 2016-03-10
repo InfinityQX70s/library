@@ -9,13 +9,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Properties;
 
 /**
  * Created by infinity on 29.02.16.
  */
-public class LocalizationController implements BaseController{
+public class LocalizationController extends BaseController{
 
     private static final Logger LOG = Logger.getLogger(LocalizationController.class);
+
+    public LocalizationController(Properties errorProperties) {
+        super(errorProperties);
+    }
 
     @Override
     public void execute(ServletContext servletContext, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,11 +34,15 @@ public class LocalizationController implements BaseController{
             }
         } catch (ControllerException e) {
             LOG.warn(e.getMessage());
-            request.setAttribute("error", e);
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            showError(e,request,response);
         }
     }
 
+    /**Задаем локализацию и записываем ее в сессию
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     private void setLocalization(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String locale = request.getParameter("locale");
         request.getSession().setAttribute("locale", locale);
