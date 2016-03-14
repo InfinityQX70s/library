@@ -11,6 +11,7 @@
     <jsp:param name="author" value=""/>
     <jsp:param name="genre" value=""/>
     <jsp:param name="order" value=""/>
+    <jsp:param name="user" value=""/>
 </jsp:include>
 <div class="row col s8 offset-s4">
     <form method="post" action="/books/search">

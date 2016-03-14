@@ -5,7 +5,10 @@ import com.epam.dao.api.exception.DaoException;
 import com.epam.entity.User;
 import org.apache.log4j.Logger;
 
+import javax.jws.soap.SOAPBinding;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by infinity on 19.02.16.
@@ -20,6 +23,7 @@ public class UserDaoImpl extends ConnectionManager implements UserDao {
     private static final String FIND_BY_ID = "SELECT * FROM User WHERE id = ?";
     private static final String FIND_BY_FIRST_NAME_AND_LAST_NAME = "SELECT * FROM User WHERE firstName = ? AND lastName = ?";
     private static final String FIND_EMAIL = "SELECT * FROM User WHERE email = ?";
+    private static final String FIND_ALL_LIBRARIAN = "SELECT * FROM User WHERE isLibrarian = TRUE";
 
     public void create(User user) throws DaoException {
         try {
@@ -101,6 +105,38 @@ public class UserDaoImpl extends ConnectionManager implements UserDao {
         }
         return user;
     }
+
+    public List<User> findAll() throws DaoException {
+        List<User> users;
+        try {
+            connect();
+            Object[] params = {};
+            resultSet = executeQuery(FIND_ALL_LIBRARIAN,params);
+            users = getResultSetList();
+            close();
+        } catch (SQLException e) {
+            LOG.warn(e.getMessage());
+            throw new DaoException("Unknown sql exception",e);
+        }
+        return users;
+    }
+
+    private List<User> getResultSetList() throws SQLException {
+        List<User> users = new ArrayList<User>();
+        while (resultSet.next()){
+            int i = 1;
+            User user = new User();
+            user.setId(resultSet.getInt(i++));
+            user.setEmail(resultSet.getString(i++));
+            user.setPassword(resultSet.getString(i++));
+            user.setFirstName(resultSet.getString(i++));
+            user.setLastName(resultSet.getString(i++));
+            user.setLibrarian(resultSet.getBoolean(i));
+            users.add(user);
+        }
+        return users;
+    }
+
 
     private User getResultSet() throws SQLException {
         User user = null;

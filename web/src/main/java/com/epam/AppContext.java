@@ -36,6 +36,7 @@ public class AppContext {
     private BookOrderController bookOrderController;
     private ErrorController errorController;
     private GenreController genreController;
+    private UserController userController;
     private LoginController loginController;
     private RegisterController registerController;
     private LocalizationController localizationController;
@@ -176,6 +177,13 @@ public class AppContext {
             genreController = new GenreController(getErrorProperties(),getGenreService(),getValidator());
         }
         return genreController;
+    }
+
+    public synchronized UserController getUserController() {
+        if (userController == null){
+            userController = new UserController(getErrorProperties(),getUserService(),getValidator());
+        }
+        return userController;
     }
 
     public synchronized LoginController getLoginController() {

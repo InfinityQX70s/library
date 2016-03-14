@@ -11,6 +11,7 @@
     <jsp:param name="author" value="active z-depth-2"/>
     <jsp:param name="genre" value=""/>
     <jsp:param name="order" value=""/>
+    <jsp:param name="user" value=""/>
 </jsp:include>
 <div class="row col s6 z-depth-2  offset-s4" style="margin-top:50px;">
     <form class="col s12" action="/authors/change" method="post">

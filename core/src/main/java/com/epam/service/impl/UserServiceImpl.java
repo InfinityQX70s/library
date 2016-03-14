@@ -9,6 +9,7 @@ import com.epam.service.api.exception.ServiceStatusCode;
 import org.apache.log4j.Logger;
 
 import javax.jws.soap.SOAPBinding;
+import java.util.List;
 
 /**
  * Created by infinity on 23.02.16.
@@ -36,6 +37,19 @@ public class UserServiceImpl extends TransactionManager implements UserService{
         }
     }
 
+    public void deleteUser(int id) throws ServiceException {
+        try {
+            User user = userDao.findById(id);
+            if (user != null){
+                userDao.delete(id);
+            }else
+                throw new ServiceException("User not found", ServiceStatusCode.USER_NOT_FOUND);
+        } catch (DaoException e) {
+            LOG.warn(e.getMessage());
+            throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
+        }
+    }
+
     public User findUserById(int id) throws ServiceException {
         try {
             User user = userDao.findById(id);
@@ -56,6 +70,16 @@ public class UserServiceImpl extends TransactionManager implements UserService{
                 return user;
             }else
                 throw new ServiceException("User not found", ServiceStatusCode.USER_NOT_FOUND);
+        } catch (DaoException e) {
+            LOG.warn(e.getMessage());
+            throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);
+        }
+    }
+
+    @Override
+    public List<User> findAll() throws ServiceException {
+        try {
+            return userDao.findAll();
         } catch (DaoException e) {
             LOG.warn(e.getMessage());
             throw new ServiceException("Unknown exception", e, ServiceStatusCode.UNKNOWN);

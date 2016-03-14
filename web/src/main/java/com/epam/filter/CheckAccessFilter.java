@@ -23,7 +23,7 @@ public class CheckAccessFilter implements Filter {
     private static final String regExpReg = "/library/reg.*";
     private static final String regExpLoc = "/library/loc.*";
     private static String regConsom = "/library/(books|orders).*";
-    private static String regLibra = "/library/(books|orders|authors|genres).*";
+    private static String regLibra = "/library/(books|orders|authors|genres|users).*";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -50,7 +50,7 @@ public class CheckAccessFilter implements Filter {
                 throw new ControllerException("Page not found", ControllerStatusCode.PAGE_NOT_FOUND);
             } catch (ControllerException e) {
                 LOG.warn(e.getMessage());
-                req.setAttribute("error", e);
+                req.setAttribute("errorMessage", e.getMessage());
                 req.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(req, resp);
             }
     }

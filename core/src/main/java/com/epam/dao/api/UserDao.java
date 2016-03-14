@@ -3,6 +3,8 @@ package com.epam.dao.api;
 import com.epam.dao.api.exception.DaoException;
 import com.epam.entity.User;
 
+import java.util.List;
+
 /**
  * Created by infinity on 19.02.16.
  */
@@ -14,4 +16,5 @@ public interface UserDao {
     User findById(int id) throws DaoException;
     User findByFirstNameAndLastName(String firstName, String lastName) throws DaoException;
     User findByEmail(String email) throws DaoException;
+    List<User> findAll() throws DaoException;
 }

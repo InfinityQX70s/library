@@ -17,6 +17,7 @@
                         <li class="<c:out value="${param.author}"/>"><a href="/authors"><fmt:message key="AUTHOR"/></a></li>
                         <li class="<c:out value="${param.genre}"/>"><a href="/genres"><fmt:message key="GENRE"/></a></li>
                         <li class="<c:out value="${param.order}"/>"><a href="/orders"><fmt:message key="ORDER"/></a></li>
+                        <li class="<c:out value="${param.user}"/>"><a href="/users"><fmt:message key="USER"/></a></li>
                         <li><a href="/logout"><fmt:message key="LOGOUT"/></a></li>
                     </c:if>
                     <c:if test="${sessionScope.role eq 'consumer'}">

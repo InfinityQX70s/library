@@ -11,6 +11,7 @@
     <jsp:param name="author" value=""/>
     <jsp:param name="genre" value=""/>
     <jsp:param name="order" value="active z-depth-2"/>
+    <jsp:param name="user" value=""/>
 </jsp:include>
 <p></p>
 <table style="margin-top:50px;" class="bordered centered z-depth-2 col s6 offset-s4">
