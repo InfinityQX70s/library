@@ -22,8 +22,8 @@ public class CheckAccessFilter implements Filter {
     private static final String regExpLog = "/library/log.*";
     private static final String regExpReg = "/library/reg.*";
     private static final String regExpLoc = "/library/loc.*";
-    private static String regConsom = "/library/(books|orders).*";
-    private static String regLibra = "/library/(books|orders|authors|genres|users).*";
+    private static final String regConsom = "/library/(books|orders).*";
+    private static final String regLibra = "/library/(books|orders|authors|genres|users).*";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

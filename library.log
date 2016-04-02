@@ -84,3 +84,95 @@
 21:09:26,133 WARN  http-nio-8080-exec-17 CheckAccessFilter:doFilter:52 - Page not found
 21:09:29,536 WARN  http-nio-8080-exec-15 CheckAccessFilter:doFilter:52 - Page not found
 21:09:29,869 WARN  http-nio-8080-exec-11 CheckAccessFilter:doFilter:52 - Page not found
+21:13:50,179 WARN  http-nio-8080-exec-17 CheckAccessFilter:doFilter:52 - Page not found
+21:13:54,164 WARN  http-nio-8080-exec-19 CheckAccessFilter:doFilter:52 - Page not found
+21:13:54,487 WARN  http-nio-8080-exec-25 CheckAccessFilter:doFilter:52 - Page not found
+21:13:56,365 WARN  http-nio-8080-exec-18 CheckAccessFilter:doFilter:52 - Page not found
+21:13:58,771 WARN  http-nio-8080-exec-22 CheckAccessFilter:doFilter:52 - Page not found
+21:14:01,272 WARN  http-nio-8080-exec-24 CheckAccessFilter:doFilter:52 - Page not found
+21:14:03,744 WARN  http-nio-8080-exec-17 CheckAccessFilter:doFilter:52 - Page not found
+21:14:08,965 WARN  http-nio-8080-exec-22 CheckAccessFilter:doFilter:52 - Page not found
+21:14:10,310 WARN  http-nio-8080-exec-24 CheckAccessFilter:doFilter:52 - Page not found
+21:14:12,389 WARN  http-nio-8080-exec-30 CheckAccessFilter:doFilter:52 - Page not found
+21:14:13,703 WARN  http-nio-8080-exec-28 CheckAccessFilter:doFilter:52 - Page not found
+21:14:14,975 WARN  http-nio-8080-exec-29 BookController:assignBook:148 - Book count too small
+21:14:15,300 WARN  http-nio-8080-exec-23 CheckAccessFilter:doFilter:52 - Page not found
+21:14:17,504 WARN  http-nio-8080-exec-22 CheckAccessFilter:doFilter:52 - Page not found
+21:14:18,896 WARN  http-nio-8080-exec-24 CheckAccessFilter:doFilter:52 - Page not found
+21:14:20,711 WARN  http-nio-8080-exec-30 CheckAccessFilter:doFilter:52 - Page not found
+21:14:36,092 WARN  http-nio-8080-exec-27 CheckAccessFilter:doFilter:52 - Page not found
+21:14:36,496 WARN  http-nio-8080-exec-25 CheckAccessFilter:doFilter:52 - Page not found
+21:15:24,193 WARN  http-nio-8080-exec-29 CheckAccessFilter:doFilter:52 - Page not found
+21:15:25,967 WARN  http-nio-8080-exec-26 CheckAccessFilter:doFilter:52 - Page not found
+21:15:27,931 WARN  http-nio-8080-exec-21 CheckAccessFilter:doFilter:52 - Page not found
+21:15:30,607 WARN  http-nio-8080-exec-27 CheckAccessFilter:doFilter:52 - Page not found
+21:15:32,203 WARN  http-nio-8080-exec-25 CheckAccessFilter:doFilter:52 - Page not found
+21:15:35,133 WARN  http-nio-8080-exec-23 CheckAccessFilter:doFilter:52 - Page not found
+21:15:36,060 WARN  http-nio-8080-exec-22 CheckAccessFilter:doFilter:52 - Page not found
+21:15:39,874 WARN  http-nio-8080-exec-24 CheckAccessFilter:doFilter:52 - Page not found
+21:15:40,602 WARN  http-nio-8080-exec-30 CheckAccessFilter:doFilter:52 - Page not found
+21:15:42,387 WARN  http-nio-8080-exec-28 CheckAccessFilter:doFilter:52 - Page not found
+21:15:45,052 WARN  http-nio-8080-exec-26 CheckAccessFilter:doFilter:52 - Page not found
+21:38:23,089 WARN  http-nio-8080-exec-25 CheckAccessFilter:doFilter:52 - Page not found
+21:38:23,897 WARN  http-nio-8080-exec-29 CheckAccessFilter:doFilter:52 - Page not found
+21:38:25,816 WARN  http-nio-8080-exec-26 CheckAccessFilter:doFilter:52 - Page not found
+21:39:07,361 WARN  http-nio-8080-exec-25 CheckAccessFilter:doFilter:52 - Page not found
+21:39:08,273 WARN  http-nio-8080-exec-29 CheckAccessFilter:doFilter:52 - Page not found
+21:39:09,013 WARN  http-nio-8080-exec-26 CheckAccessFilter:doFilter:52 - Page not found
+21:39:10,280 WARN  http-nio-8080-exec-21 CheckAccessFilter:doFilter:52 - Page not found
+21:39:15,336 WARN  http-nio-8080-exec-24 AuthorController:addAuthor:124 - Author with such identifier exist
+21:39:15,652 WARN  http-nio-8080-exec-27 CheckAccessFilter:doFilter:52 - Page not found
+21:39:16,732 WARN  http-nio-8080-exec-25 CheckAccessFilter:doFilter:52 - Page not found
+21:39:18,690 WARN  http-nio-8080-exec-23 CheckAccessFilter:doFilter:52 - Page not found
+21:39:21,238 WARN  http-nio-8080-exec-22 CheckAccessFilter:doFilter:52 - Page not found
+21:39:22,754 WARN  http-nio-8080-exec-24 CheckAccessFilter:doFilter:52 - Page not found
+21:39:24,104 WARN  http-nio-8080-exec-30 CheckAccessFilter:doFilter:52 - Page not found
+21:39:28,539 WARN  http-nio-8080-exec-28 GenreController:addGenre:103 - Genre with such identifier exist
+21:39:28,854 WARN  http-nio-8080-exec-29 CheckAccessFilter:doFilter:52 - Page not found
+21:39:30,225 WARN  http-nio-8080-exec-26 CheckAccessFilter:doFilter:52 - Page not found
+21:39:32,233 WARN  http-nio-8080-exec-24 CheckAccessFilter:doFilter:52 - Page not found
+21:39:33,993 WARN  http-nio-8080-exec-30 CheckAccessFilter:doFilter:52 - Page not found
+21:39:34,809 WARN  http-nio-8080-exec-28 CheckAccessFilter:doFilter:52 - Page not found
+21:39:38,468 WARN  http-nio-8080-exec-23 CheckAccessFilter:doFilter:52 - Page not found
+21:39:47,360 WARN  http-nio-8080-exec-24 CheckAccessFilter:doFilter:52 - Page not found
+21:40:10,583 WARN  http-nio-8080-exec-30 CheckAccessFilter:doFilter:52 - Page not found
+21:40:12,350 WARN  http-nio-8080-exec-28 CheckAccessFilter:doFilter:52 - Page not found
+21:40:19,815 WARN  http-nio-8080-exec-29 BookController:addBook:214 - Book year format exception
+21:40:20,169 WARN  http-nio-8080-exec-23 CheckAccessFilter:doFilter:52 - Page not found
+21:40:21,466 WARN  http-nio-8080-exec-26 CheckAccessFilter:doFilter:52 - Page not found
+21:40:27,456 WARN  http-nio-8080-exec-21 BookController:addBook:214 - Book year format exception
+21:40:27,812 WARN  http-nio-8080-exec-24 CheckAccessFilter:doFilter:52 - Page not found
+21:40:28,897 WARN  http-nio-8080-exec-30 CheckAccessFilter:doFilter:52 - Page not found
+21:40:30,982 WARN  http-nio-8080-exec-25 BookController:addBook:211 - Book with such identifier exist
+21:40:31,345 WARN  http-nio-8080-exec-28 CheckAccessFilter:doFilter:52 - Page not found
+21:40:32,846 WARN  http-nio-8080-exec-23 CheckAccessFilter:doFilter:52 - Page not found
+21:40:35,385 WARN  http-nio-8080-exec-21 CheckAccessFilter:doFilter:52 - Page not found
+21:40:37,357 WARN  http-nio-8080-exec-27 CheckAccessFilter:doFilter:52 - Page not found
+21:40:39,565 WARN  http-nio-8080-exec-25 CheckAccessFilter:doFilter:52 - Page not found
+21:40:40,878 WARN  http-nio-8080-exec-29 CheckAccessFilter:doFilter:52 - Page not found
+21:40:41,760 WARN  http-nio-8080-exec-23 AuthorController:deleteAuthor:167 - Author assign with books
+12:03:49,847 WARN  http-nio-8080-exec-8 LoginController:loginUser:91 - Wrong email or pass
+16:43:26,121 WARN  http-nio-8080-exec-1 CheckAccessFilter:doFilter:52 - Page not found
+16:43:30,119 WARN  http-nio-8080-exec-4 CheckAccessFilter:doFilter:52 - Page not found
+16:43:31,173 WARN  http-nio-8080-exec-7 CheckAccessFilter:doFilter:52 - Page not found
+16:43:32,819 WARN  http-nio-8080-exec-5 CheckAccessFilter:doFilter:52 - Page not found
+16:43:35,114 WARN  http-nio-8080-exec-3 CheckAccessFilter:doFilter:52 - Page not found
+16:43:37,082 WARN  http-nio-8080-exec-2 CheckAccessFilter:doFilter:52 - Page not found
+16:43:46,297 WARN  http-nio-8080-exec-6 CheckAccessFilter:doFilter:52 - Page not found
+16:43:50,737 WARN  http-nio-8080-exec-5 CheckAccessFilter:doFilter:52 - Page not found
+16:44:00,936 WARN  http-nio-8080-exec-2 LoginController:loginUser:91 - Wrong email or pass
+16:44:09,285 WARN  http-nio-8080-exec-3 LoginController:loginUser:91 - Wrong email or pass
+16:44:48,252 WARN  http-nio-8080-exec-3 CheckAccessFilter:doFilter:52 - Page not found
+16:44:50,587 WARN  http-nio-8080-exec-4 CheckAccessFilter:doFilter:52 - Page not found
+16:44:51,551 WARN  http-nio-8080-exec-6 CheckAccessFilter:doFilter:52 - Page not found
+16:44:53,439 WARN  http-nio-8080-exec-5 CheckAccessFilter:doFilter:52 - Page not found
+16:44:54,324 WARN  http-nio-8080-exec-9 CheckAccessFilter:doFilter:52 - Page not found
+16:44:55,728 WARN  http-nio-8080-exec-3 CheckAccessFilter:doFilter:52 - Page not found
+16:44:56,997 WARN  http-nio-8080-exec-4 CheckAccessFilter:doFilter:52 - Page not found
+16:44:58,694 WARN  http-nio-8080-exec-6 CheckAccessFilter:doFilter:52 - Page not found
+16:44:59,515 WARN  http-nio-8080-exec-5 CheckAccessFilter:doFilter:52 - Page not found
+16:45:01,711 WARN  http-nio-8080-exec-9 CheckAccessFilter:doFilter:52 - Page not found
+16:45:05,097 WARN  http-nio-8080-exec-1 CheckAccessFilter:doFilter:52 - Page not found
+16:45:06,633 WARN  http-nio-8080-exec-2 CheckAccessFilter:doFilter:52 - Page not found
+16:45:09,531 WARN  http-nio-8080-exec-5 CheckAccessFilter:doFilter:52 - Page not found
+16:45:13,521 WARN  http-nio-8080-exec-9 CheckAccessFilter:doFilter:52 - Page not found
